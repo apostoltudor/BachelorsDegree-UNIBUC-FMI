@@ -1,9 +1,22 @@
 FROM snisioi/retele:2021
+# tracerouter
+#RUN apt-get update && apt-get install -y iptables iproute2 libnetfilter-queue-dev whois
+#
+#RUN pip3 install --upgrade python-iptables cython requests
+#
+#RUN mkdir -p /scripts
+#COPY src/tracerouter/*.sh /scripts/
+#
+#RUN mkdir -p /src
+#COPY src/tracerouter/*.py /src/
+#
 
-RUN apt-get update && apt-get install -y iptables iproute2 libnetfilter-queue-dev whois
+# dns blocker
 
-RUN pip3 install --upgrade python-iptables cython
+RUN apt-get update && apt-get install -y python3-pip
+RUN pip3 install --no-cache-dir matplotlib dnslib
 
-RUN mkdir -p /scripts
-COPY src/*.sh /scripts/
+WORKDIR /app
+COPY ./src/dns_blocker/ /app/
 
+CMD ["python3", "dns_blocker.py"]

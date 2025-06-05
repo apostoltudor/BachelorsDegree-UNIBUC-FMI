@@ -1,0 +1,74 @@
+[
+    {
+        "ttl": 1,
+        "ip": "172.29.208.1",
+        "elapsed_ms": 0.57,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 2,
+        "ip": "192.168.1.1",
+        "elapsed_ms": 2.19,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 3,
+        "ip": "10.0.0.1",
+        "elapsed_ms": 3.12,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 4,
+        "ip": "10.30.2.145",
+        "elapsed_ms": 2.33,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 5,
+        "ip": "10.220.164.130",
+        "elapsed_ms": 3.27,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 6,
+        "ip": "10.221.100.90",
+        "elapsed_ms": 3.39,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 7,
+        "ip": "86.120.70.185",
+        "elapsed_ms": 5.28,
+        "location": "Romania, Bucure\u0219ti, Bucharest",
+        "lat": 44.4946,
+        "lon": 26.0578
+    },
+    {
+        "ttl": 8,
+        "ip": "162.158.16.15",
+        "elapsed_ms": 6.23,
+        "location": "Romania, Bucharest, Bucharest",
+        "lat": 44.4267,
+        "lon": 26.1025
+    },
+    {
+        "ttl": 9,
+        "ip": "2.58.104.10",
+        "elapsed_ms": 14.34,
+        "location": "Australia, New South Wales, Sydney",
+        "lat": -33.8688,
+        "lon": 151.209
+    }
+]
