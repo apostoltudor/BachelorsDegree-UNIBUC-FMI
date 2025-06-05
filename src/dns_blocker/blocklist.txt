@@ -1,0 +1,12 @@
+ads.google.com
+doubleclick.net
+tracking.example.com
+adserver.facebook.com
+www.accuweather.com
+google-analytics.com
+doubleclick.net
+ads.yahoo.com
+ads.google.com
+pagead2.googlesyndication.com
+adservice.google.com
+securepubads.g.doubleclick.net
