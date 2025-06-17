@@ -5,17 +5,19 @@ import requests
 import json
 import sys
 
-# # socket de UDP
-# udp_send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, proto=socket.IPPROTO_UDP)
-# # socket RAW de citire a răspunsurilor ICMP
-# icmp_recv_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
-# # setam timout in cazul in care socketul ICMP la apelul recvfrom nu primeste nimic in buffer
-# icmp_recv_socket.settimeout(3)
+# socket - pentru crearea conexiunilor de retea
+# UDP(User Datagram Protocol) este un protocol, fara conexiune, folosit pentru a trimite pachete de date
+# ICMP(Internet Control Message Protocol) este un protocol de retea folosit pentru a trimite mesaje de eroare si informatii de control
+# TTL(Time To Live) este un camp din antetul pachetelor IP care specifica numarul maxim de routere prin care un pachet poate trece
 
+# Lista in care se stocheaza informatiile despre fiecare hop
 route_data = []
+
+# Functie care verifica daca un IP este dintr-un interval privat
 def is_private_ip(ip):
     return ip.startswith("10.") or ip.startswith("192.168.") or (ip.startswith("172.") and 16 <= int(ip.split('.')[1]) <= 31)
 
+# Functie care interogheaza un API pentru a obtine informatii de geolocatie despre un IP
 def get_geo_info(ip):
     if is_private_ip(ip):
         return {"location": "Private IP - no geo info", "lat": None, "lon": None}
@@ -36,41 +38,44 @@ def get_geo_info(ip):
     except Exception as e:
         return {"location": f"Error: {e}", "lat": None, "lon": None}
 
-
-
+# Functie principala de traceroute
 def traceroute(ip, port):
     max_hops = 40
     timeout = 3
-    message = b'salut'
+    message = b'salut'  # mesaj trimis catre destinatie
     dest_addr = socket.gethostbyname(ip)
 
     print(f"Traceroute catre {dest_addr}, maxim {max_hops} hop-uri:\n")
 
     for ttl in range(1, max_hops + 1):
-        # sockets pentru fiecare ttl
+        # Creaza socket UDP pentru trimiterea pachetelor
         udp_send_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, proto=socket.IPPROTO_UDP)
         udp_send_sock.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
 
+        # Creaza socket RAW pentru receptia mesajelor ICMP
         icmp_recv_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
         icmp_recv_socket.settimeout(timeout)
 
-        # bind pe portul local
+        # Bind pe portul de ascultare pentru a receptiona raspunsurile ICMP
         icmp_recv_socket.bind(("", port))
 
         start_time = time.time()
 
         try:
+            # Trimite mesajul UDP
             udp_send_sock.sendto(message, (dest_addr, port))
+            # Asteapta raspuns ICMP
             data, addr = icmp_recv_socket.recvfrom(512)
 
             end_time = time.time()
-
-            elapsed = (end_time - start_time) * 1000  # ms
+            elapsed = (end_time - start_time) * 1000  # Timpul in milisecunde
             router_ip = addr[0]
 
-            # verificam daca e un mesaj ICMP Port Unreachable => destinatie atinsa
+            # Extrage tipul mesajului ICMP
             icmp_type = data[20]
             geo = get_geo_info(router_ip)
+
+            # Daca tipul este 3 (Port Unreachable), inseamna ca am ajuns la destinatie
             if icmp_type == 3:
                 print(f"{ttl}\t{router_ip}\t{round(elapsed, 2)} ms\t{geo['location']} (DESTINATION REACHED)")
                 route_data.append({
@@ -82,6 +87,7 @@ def traceroute(ip, port):
                     "lon": geo["lon"]
                 })
                 break
+            # Daca tipul este 11 (Time Exceeded), routerul a respins pachetul pentru ca TTL a expirat
             elif icmp_type == 11:
                 print(f"{ttl}\t{router_ip}\t{round(elapsed, 2)} ms\t{geo['location']}")
             else:
@@ -101,43 +107,18 @@ def traceroute(ip, port):
         except Exception as e:
             print(f"{ttl}\tError: {e}")
             print(traceback.format_exc())
-
         finally:
             udp_send_sock.close()
             icmp_recv_socket.close()
 
-'''
- Exercitiu hackney carriage (optional)!
-    e posibil ca ipinfo sa raspunda cu status code 429 Too Many Requests
-    cititi despre campul X-Forwarded-For din antetul HTTP
-        https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/
-    si setati-l o valoare in asa fel incat
-    sa puteti trece peste sistemul care limiteaza numarul de cereri/zi
-
-    Alternativ, puteti folosi ip-api (documentatie: https://ip-api.com/docs/api:json).
-    Acesta permite trimiterea a 45 de query-uri de geolocare pe minut.
-'''
-
-# # exemplu de request la IP info pentru a
-# # obtine informatii despre localizarea unui IP
-# fake_HTTP_header = {
-#                     'referer': 'https://ipinfo.io/',
-#                     'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.79 Safari/537.36'
-#                    }
-# # informatiile despre ip-ul 193.226.51.6 pe ipinfo.io
-# # https://ipinfo.io/193.226.51.6 e echivalent cu
-# raspuns = requests.get('https://ipinfo.io/193.226.51.6/json', headers=fake_HTTP_header)
-# print (raspuns.json())
-# pentru un IP rezervat retelei locale da bogon=True
-# raspuns = requests.get('https://ipinfo.io/widget/10.0.0.1', headers=fake_HTTP_header)
-# print (raspuns.json())
-
+# Cod principal: se apeleaza din linia de comanda cu 2 argumente: IP si PORT
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python3 traceroute.py <IP> <PORT>")
         exit(1)
+    
     traceroute(sys.argv[1], int(sys.argv[2]))
 
-    
+    # Salvare rezultat in fisier JSON
     with open("route_output.json", "w") as f:
         json.dump(route_data, f, indent=4)

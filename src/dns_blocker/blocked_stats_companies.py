@@ -8,7 +8,6 @@ OUTPUT_IMAGE = "blocked_stats_companies.png"
 with open(LOG_FILE, "r") as f:
     domains = [line.strip().lower() for line in f.readlines()]
 
-# Dicționarul cu companii și cuvintele cheie
 COMPANIES = {
     "Google": ["google", "youtube", "doubleclick", "gstatic", "googlesyndication"],
     "Facebook": ["facebook", "fbcdn", "fb", "instagram"],
@@ -28,22 +27,22 @@ def find_company(domain):
 # Map domains to companies
 company_list = [find_company(d) for d in domains]
 
-# Contorizează blocările pe companii
+# Contorizeaza blocările pe companii
 counts = Counter(company_list)
 most_common = counts.most_common()
 
 # Print raport
-print("Raport blocări pe companii:")
+print("Raport blocari pe companii:")
 for company, count in most_common:
     print(f"{company}: {count}")
 
-# Grafic
+
 labels, values = zip(*most_common)
 plt.figure(figsize=(10,6))
 plt.bar(labels, values, color='skyblue')
 plt.xlabel("Companii")
-plt.ylabel("Număr de blocări")
-plt.title("Blocări DNS pe companii (top)")
+plt.ylabel("Numar de blocari")
+plt.title("Blocari DNS pe companii (top)")
 plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 plt.savefig(OUTPUT_IMAGE)

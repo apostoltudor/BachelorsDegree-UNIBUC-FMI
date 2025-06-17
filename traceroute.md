@@ -107,10 +107,10 @@ Traceroute catre 2.58.104.11, maxim 30 hop-uri:
 
 ## Rulare
 
-1. Deschide terminalul în WSL (Windows Subsystem for Linux).  
-2. Navighează în directorul proiectului: retele-miau-miau/src/tracerouter  
-3. Construiește imaginea Docker: docker compose build  
-4. Pornește containerul în fundal: docker compose up -d  
-5. Rulează scriptul pentru traceroute: ./run_traceroute.sh  
-6. Așteaptă afișarea rezultatelor în terminal.  
+1. Deschide terminalul in WSL (Windows Subsystem for Linux).  
+2. Navigheaza in directorul proiectului: retele-miau-miau/src/tracerouter  
+3. Construieste imaginea Docker: docker compose build  
+4. Porneste containerul in fundal: docker compose up -d  
+5. Ruleaza scriptul pentru traceroute: ./run_traceroute.sh  
+6. Asteapta afisarea rezultatelor in terminal.  
 7. Pentru a opri containerul Docker: docker compose down  
