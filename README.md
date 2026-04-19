@@ -105,7 +105,8 @@ Datorită testelor noastre riguroase structurale, am atins:
 - **100% Branch Coverage** (toate ramificațiile acoperite)
 - **94% Line Coverage** (o anumită linie `throw` nu a putut fi atinsă la un branch absolut, dar overall toate deciziile sunt testate)
 
-[ SPATIU LIBER SCREENSHOT JACOCO AICI ]
+<img width="1014" height="369" alt="jacoco" src="https://github.com/user-attachments/assets/aca42f9d-a52e-412f-b037-7de309265f57" />
+
 
 **Analiza Mutanților (PITest):**
 A fost înregistrat un **Mutation Score de 87%**. Din cei 39 de mutanți generați, ambele suite reușesc să identifice 34 de tipuri de defecte inserate.
@@ -113,12 +114,14 @@ Cei 5 mutanți "supraviețuitori" lăsați în raport subliniază conceptul de *
 
 - Mutantul a modificat de exemplu `105` în `106` pe if-ul `if (total > 105)`. E absolut echivalent matematic pentru că testul continuă la filtrul `>= 90` și returnează oricum nota A. Am adăugat documentarea specifică a acestora fix în clasă ca exemple de mutații invizibile.
 
-[ SPATIU LIBER SCREENSHOT PITest AICI ]
+<img width="811" height="455" alt="pitest" src="https://github.com/user-attachments/assets/00f9198e-27bc-4729-9fdc-c2cb3bf0d121" />
+
 
 ## 7. Capturi de Ecran doveditoare
 
 - Execuția testelor (88/88 passed):
-  [ SPATIU LIBER SCREENSHOT CONSOLĂ JUNIT ]
+  <img width="1002" height="199" alt="junit" src="https://github.com/user-attachments/assets/2a75a7dc-5aed-45f9-90bf-89b86f63e5cb" />
+
 - Diagrama Grafului de Control al Fluxului (CFG) generată în diagrams.net pe baza codului pentru complexitatea ciclomatică:
   <img width="1626" height="741" alt="diagrama_tss 22 30 32" src="https://github.com/user-attachments/assets/1b2ed5ec-0487-4562-8c92-f4856a8d2fc4" />
 
