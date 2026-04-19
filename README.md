@@ -120,12 +120,12 @@ Cei 5 mutanți "supraviețuitori" lăsați în raport subliniază conceptul de *
 - Execuția testelor (88/88 passed):
   [ SPATIU LIBER SCREENSHOT CONSOLĂ JUNIT ]
 - Diagrama Grafului de Control al Fluxului (CFG) generată în diagrams.net pe baza codului pentru complexitatea ciclomatică:
-  [
+  <img width="1626" height="741" alt="diagrama_tss 22 30 32" src="https://github.com/user-attachments/assets/1b2ed5ec-0487-4562-8c92-f4856a8d2fc4" />
+
 
 ## 8. Demonstrație Video
 
-Puteți vizualiza o detaliere tehnică de câteva minute a componentelor acestui repository și rularea în timp real a testelor aici:
-[ SPATIU LIBER LINK YOUTUBE ]
+https://youtu.be/s8MJVBEvsTY
 
 ## 9. Raport Utilizare Asistenți AI
 
