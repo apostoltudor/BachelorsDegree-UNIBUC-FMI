@@ -5,28 +5,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Testare functionala — Analiza Valorilor de Frontiera (Boundary Value Analysis).
- *
- * Strategia:
- * Se testeaza valorile de la marginea fiecarui interval (prag), deoarece
- * cele mai multe erori apar la granite. Pentru fiecare prag se testeaza:
- * valoarea imediat sub prag, valoarea pe prag si valoarea imediat deasupra.
- *
- * Praguri identificate:
- *   - Validare score: 0, 100 (limite ale domeniului valid)
- *   - Nota D: prag 60
- *   - Nota C: prag 70
- *   - Nota B: prag 80
- *   - Nota A: prag 90
- *   - Limitare total: prag 105
- */
+// testare functionala - analiza valorilor de frontiera
 @DisplayName("Testare Functionala: Analiza Valorilor de Frontiera (BVA)")
 public class BoundaryValueTest {
 
-    // =========================================================================
-    // Frontiera domeniului valid al parametrului score: 0 si 100
-    // =========================================================================
+    // testare scor zero
     @Nested
     @DisplayName("Frontiera score: limita inferioara (0)")
     class FrontieraScoreLimitaInferioara {
@@ -51,6 +34,7 @@ public class BoundaryValueTest {
         }
     }
 
+    // testare suta
     @Nested
     @DisplayName("Frontiera score: limita superioara (100)")
     class FrontieraScoreLimitaSuperioara {
@@ -75,9 +59,7 @@ public class BoundaryValueTest {
         }
     }
 
-    // =========================================================================
-    // Frontiera pragului 60 (D / F)
-    // =========================================================================
+    // limita de trecere
     @Nested
     @DisplayName("Frontiera prag 60 (D vs F)")
     class FrontieraPrag60 {
@@ -101,9 +83,7 @@ public class BoundaryValueTest {
         }
     }
 
-    // =========================================================================
-    // Frontiera pragului 70 (C / D)
-    // =========================================================================
+    // limita nota mica
     @Nested
     @DisplayName("Frontiera prag 70 (C vs D)")
     class FrontieraPrag70 {
@@ -127,9 +107,7 @@ public class BoundaryValueTest {
         }
     }
 
-    // =========================================================================
-    // Frontiera pragului 80 (B / C)
-    // =========================================================================
+    // limita nota medie
     @Nested
     @DisplayName("Frontiera prag 80 (B vs C)")
     class FrontieraPrag80 {
@@ -153,9 +131,7 @@ public class BoundaryValueTest {
         }
     }
 
-    // =========================================================================
-    // Frontiera pragului 90 (A / B)
-    // =========================================================================
+    // limita nota mare
     @Nested
     @DisplayName("Frontiera prag 90 (A vs B)")
     class FrontieraPrag90 {
@@ -181,14 +157,11 @@ public class BoundaryValueTest {
         @Test
         @DisplayName("total = 90 cu extraCredit → A+ (pe prag, cu extraCredit)")
         void total90CuExtraCredit() {
-            // score=85, bonus=0, extra=true → total = 85+0+5 = 90
             assertEquals("A+", Calculator.calculateGrade(85, 0, true));
         }
     }
 
-    // =========================================================================
-    // Frontiera limitarii totalului la 105
-    // =========================================================================
+    // limita puncte maxime
     @Nested
     @DisplayName("Frontiera limitarii total la 105")
     class FrontieraLimitareTotal {
@@ -196,29 +169,24 @@ public class BoundaryValueTest {
         @Test
         @DisplayName("total = 104 → A (sub limita de cap)")
         void total104() {
-            // score=100, bonus=4, extra=false → total = 104
             assertEquals("A", Calculator.calculateGrade(100, 4, false));
         }
 
         @Test
         @DisplayName("total = 105 → A (pe limita de cap)")
         void total105() {
-            // score=100, bonus=5, extra=false → total = 105
             assertEquals("A", Calculator.calculateGrade(100, 5, false));
         }
 
         @Test
         @DisplayName("total ar fi 110 dar se limiteaza la 105 → A")
         void totalCapAtLa105() {
-            // score=100, bonus=10, extra=false → total = 110 → capped la 105
             assertEquals("A", Calculator.calculateGrade(100, 10, false));
         }
 
         @Test
         @DisplayName("total ar fi 125 cu extraCredit, se limiteaza la 105 → A+")
         void totalCapAtCuExtraCredit() {
-            // score=100, bonus=20, extra=true → total = 125 → capped la 105
-            // 105 >= 90 si extraCredit=true → A+
             assertEquals("A+", Calculator.calculateGrade(100, 20, true));
         }
     }
