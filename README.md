@@ -37,12 +37,12 @@ Suitele de testare se împart în 3 abordări majore:
 **A. Testare Funcțională (Black-Box)**
 
 - **Partiționarea în clase de echivalență (`EquivalencePartitioningTest`):** Parametrii de intrare au fost divizați în intervale de clase invalide (ex: sub 0 sau peste 100) și clase valide (fiecare tip de notă în funcție de range-ul ei).
-- **Analiza Valorilor de Frontieră (`BoundaryValueTest`):** Testarea exigentă la limite (sub prag, exact pe prag, imediat deasupra pragului) pentru intervalele notelor (60, 70, 80, 90 și valoarea limită fixată 105).
+- **Analiza Valorilor de Frontieră (`BoundaryValueTest`):** Testarea la limite (sub prag, exact pe prag, imediat deasupra pragului) pentru intervalele notelor (60, 70, 80, 90 și valoarea limită fixată 105).
 
 **B. Testare Structurală (White-Box)**
 
-- **Acoperire la Nivel de Instrucțiune (`StatementCoverageTest`):** Ne-am asigurat că fiecare linie de bytecode/cod real se execută cel puțin o dată.
-- **Acoperire la Nivel de Decizie/Ramură (`BranchCoverageTest`):** Fiecare ramură din CFG (Graful Fluxului de Control) a fost atinsă de setul de teste.
+- **Acoperire la Nivel de Instrucțiune (`StatementCoverageTest`):** Ne-am asigurat că fiecare linie de cod se execută cel puțin o dată.
+- **Acoperire la Nivel de Decizie/Ramură (`BranchCoverageTest`):** Fiecare ramură din Graful Fluxului de Control a fost atinsă de setul de teste.
 - **Acoperire la Nivel de Condiție și MC/DC (`ConditionCoverageTest`):** Verificare la nivel atomic al predicatelor logice complexe, dovedind efectul izolat al fiecărei expresii care intră într-un `if` AND/OR.
 - **Testarea Circuitelor Independente (`IndependentCircuitsTest`):** Bazat pe complexitatea ciclomatică McCabe (*V(G) = 5*), unde am derivat 5 căi total independente din CFG și am scris câte un test dedicat pentru fiecare drum fundamental parcurs de cod.
 
