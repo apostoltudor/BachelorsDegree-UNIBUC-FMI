@@ -117,6 +117,10 @@ def main():
     process_file('reddit_scraper/scraped_reddit_data.json', 'reddit_scraper/classified_romania.json')
     # 2. Roumanie
     process_file('reddit_scraper/scraped_roumanie_data.json', 'reddit_scraper/classified_roumanie.json')
+    # 3. Romaniafetebune
+    process_file('reddit_scraper/scraped_romaniafetebune_data.json', 'reddit_scraper/classified_romaniafetebune.json')
+    # 4. Romaniacrazy
+    process_file('reddit_scraper/scraped_romaniacrazy_data.json', 'reddit_scraper/classified_romaniacrazy.json')
 
 if __name__ == "__main__":
     main()
