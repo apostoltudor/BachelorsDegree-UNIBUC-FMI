@@ -1,0 +1,80 @@
+{
+  "insults_general_expanded": [
+    "prost", "proasta", "prosti", "proaste", "idiot", "idioata", "tampit", 
+    "tampita", "cretin", "cretina", "imbecil", "imbecila", "dobitoc", 
+    "dobitoaca", "bou", "vaca", "nesimtit", "nesimtita", "jegos", "jegoasa", 
+    "fraier", "fraiera", "ratat", "ratata", "penibil", "penibila", "scursura",
+    "gunoi", "mizerie", "javra", "potaie", "lichea", "lepra", "zarandila",
+    "slugoi", "milog", "coate-goale", "pata_de_mucegai"
+  ],
+
+  "ethnic_and_racial_hate": [
+    "tigan", "tiganca", "tiganie", "ciara", "cioroi", "ciorditor", "balaoes",
+    "moderator", "brazilian", "valuta", "indian", "magraon", "bulibasa",
+    "boanghen", "ungur imputit", "jidan", "jidanca", "azilant", "venituri",
+    "ciocolata", "negrotei", "maimuta", "vinitura", "mitic", "pazvante"
+  ],
+
+  "sexual_and_anatomical": [
+    "pula", "pulii", "pizda", "pizdii", "fut", "fute", "futut", "futu-ti", 
+    "muie", "muia", "sugi", "suge-o", "bag pula", "sugi pula", "ce pula mea", 
+    "du-te-n pula mea", "labagiu", "laba", "sculament", "preput", "lindic",
+    "cur", "gaoz", "gaozar", "coae", "coaie", "fofoloanca", "bulau", "craci",
+    "pasarica", "pasarici", "pasaricii", "buci", "curist"
+  ],
+
+  "misogyny_and_objectification": [
+    "curva", "tarfa", "panarama", "centurista", "asfaltista", "femeie la cratita", 
+    "pizdificata", "clatita", "ghioaba", "glit", "shatla", "haladita", "tulea",
+    "paraipan", "prostituata", "stricata"
+  ],
+
+  "anti_lgbtq_and_gender_slurs": [
+    "poponar", "bulangiu", "pederast", "homalau", "femeius", "lebi", "lesbi",
+    "invertit", "dosnic", "tranzistor", "fost barbat", "fosta femeie", 
+    "curist", "pizdificat", "pedocu"
+  ],
+
+  "ableism_and_mental_stigma": [
+    "handicapat", "rebelit", "retardat", "autist", "leguma", "oligofren", 
+    "nebunule", "spitalul 9", "balaceanca", "mongoloid", "cretinoid", 
+    "debil", "anormal", "diliu", "dus cu pluta"
+  ],
+
+  "religious_and_family_invective": [
+    "dracu", "dracului", "naiba", "du-te dracu", "ce dracu", "la naiba",
+    "mama ta", "ma-ta", "mortii ma-tii", "crucea ma-tii", "biserica ma-tii",
+    "rasa ta", "neamu matii", "du-te-n pizda ma-tii", "te fut in gura",
+    "pastele matii", "anafura matii", "candela matii", "dumnezeii matii",
+    "mori dracului", "scuipa-te-ar dracu"
+  ],
+
+  "phonetic_and_creative_bypasses": [
+    "pu1a", "p0la", "p*la", "p_u_l_a", "p.u.l.a", "p1zda", "p*zda", "mu1e", 
+    "mu!e", "f0t", "f*t", "drq", "drk", "m_u_i_e", "t1gan", "crv", "p0p0nar",
+    "p_i_z_d_a", "f_u_t_u_t", "m.u.i.e", "pulyca", "pizdyca", "fvtvt"
+  ],
+
+  "regex_patterns_comprehensive": [
+    "p[u0o]+l[aăai1!@]*",
+    "p[i1!]+z+d[aăai1!@]*",
+    "f[u*0]+t+[a-z0-9-]*",
+    "m[u!1]+e+[ia1!]*",
+    "dr[aă]c[a-z]*",
+    "t[i1y!j]g[a4@n]*",
+    "m[u0]d[e3]r[a4]t[o0]r",
+    "br[a4]z[i1]l[i1][a4]n",
+    "b[u0]l[a4]ng[i1]u",
+    "p[o0]p[o0]n[a4]r",
+    "c[u*][r][v][a4]",
+    "m[a4][\-]t[a4]"
+  ],
+
+  "placeholders": [
+    "[EXTREME_SEXUAL_THREAT_REDACTED]",
+    "[FAMILY_TARGETED_INSULT_REDACTED]",
+    "[VIOLENCE_RELATED_INSULT_REDACTED]",
+    "[HATE_SPEECH_REDACTED]",
+    "[ETHNIC_SLUR_REDACTED]"
+  ]
+}
