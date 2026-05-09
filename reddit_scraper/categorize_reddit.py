@@ -4,9 +4,21 @@ import json
 import time
 from dotenv import load_dotenv
 
-# Load the token from hf_pipeline/.env
+# Load the tokens from hf_pipeline/.env
 load_dotenv(dotenv_path="hf_pipeline/.env")
-token = os.getenv("HF_TOKEN").strip() if os.getenv("HF_TOKEN") else None
+
+# Dynamically gather all tokens that start with HF_TOKEN (e.g., HF_TOKEN, HF_TOKEN_2, HF_TOKEN_BACKUP)
+tokens = []
+for key, value in os.environ.items():
+    if key.upper().startswith("HF_TOKEN") and value.strip():
+        tokens.append(value.strip())
+
+if not tokens:
+    print("❌ No HF_TOKEN found in hf_pipeline/.env")
+    exit(1)
+
+print(f"✅ Found {len(tokens)} Hugging Face tokens for rotation.")
+current_token_idx = 0
 
 MODEL = "meta-llama/Llama-3.1-8B-Instruct"
 API_URL = "https://router.huggingface.co/v1/chat/completions"
@@ -19,16 +31,13 @@ CATEGORIES = [
     "General Aggression & Insults",
     "Misogyny & Objectification",
     "Ableism & Mental Stigma",
-    "Family & Religious Invective"
+    "Family & Religious Invective",
+    "Neutral"
 ]
 
 def categorize_batch(texts):
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
+    global current_token_idx
     
-    # We ask for a list of categories in order
     prompt = f"""Clasifică următoarele {len(texts)} comentarii românești în una din aceste categorii:
 {json.dumps(CATEGORIES, indent=2)}
 
@@ -36,6 +45,8 @@ Comentarii:
 {json.dumps(texts, indent=2)}
 
 Returnează DOAR un array JSON cu numele categoriei pentru fiecare comentariu, în ordine.
+Ia in considerare si cuvantul gasit si categoria pusa deja.
+Daca considerti ca un comentariu nu se încadreaza ca insulta, pune l ca "Neutral".
 Exemplu: ["Politics & Public Personalities", "General Aggression & Insults"]"""
 
     payload = {
@@ -47,22 +58,42 @@ Exemplu: ["Politics & Public Personalities", "General Aggression & Insults"]"""
         "temperature": 0.1
     }
 
-    try:
-        response = requests.post(API_URL, headers=headers, json=payload, timeout=60)
-        if response.status_code == 200:
-            res_json = response.json()
-            content = res_json['choices'][0]['message']['content']
-            content = content.replace("```json", "").replace("```", "").strip()
-            return json.loads(content)
-        elif response.status_code == 402:
-            print("\n❌ Credits depleted on HF. Try a different token or wait.")
+    attempts = 0
+    max_attempts = len(tokens) * 2  # Allows us to cycle through all tokens at least twice before giving up
+    
+    while attempts < max_attempts:
+        token = tokens[current_token_idx]
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json"
+        }
+        
+        try:
+            response = requests.post(API_URL, headers=headers, json=payload, timeout=45)
+            if response.status_code == 200:
+                res_json = response.json()
+                content = res_json['choices'][0]['message']['content']
+                content = content.replace("```json", "").replace("```", "").strip()
+                return json.loads(content)
+            elif response.status_code in [429, 402, 503, 504]: # Rate limit, payment required, or server timeout/overload
+                print(f"\n⚠️ Token {current_token_idx+1} received {response.status_code} (Rate Limit / Timeout). Switching token...")
+                current_token_idx = (current_token_idx + 1) % len(tokens)
+                attempts += 1
+                time.sleep(2)  # Give it a short breath before retrying
+            else:
+                print(f"\n❌ Error {response.status_code}: {response.text}")
+                return None
+        except requests.exceptions.Timeout:
+            print(f"\n⚠️ Request Timeout on token {current_token_idx+1}. Switching token...")
+            current_token_idx = (current_token_idx + 1) % len(tokens)
+            attempts += 1
+            time.sleep(2)
+        except Exception as e:
+            print(f"\n❌ Exception: {e}")
             return None
-        else:
-            print(f"\n❌ Error {response.status_code}: {response.text}")
-            return None
-    except Exception as e:
-        print(f"\n❌ Exception: {e}")
-        return None
+            
+    print("\n❌ All tokens depleted or failed. Batch skipped.")
+    return None
 
 def process_file(input_path, output_path):
     if not os.path.exists(input_path):
@@ -92,9 +123,9 @@ def process_file(input_path, output_path):
                     "source": item.get('source', 'reddit')
                 })
         else:
-            print(f"\n  Batch failed at {i}. Retrying in 5s...")
-            time.sleep(5)
-            # Second attempt with smaller batch
+            print(f"\n  Batch failed at {i}. Retrying with smaller chunks...")
+            time.sleep(3)
+            # Second attempt item by item
             for item in batch:
                 label_list = categorize_batch([item['text']])
                 if label_list and len(label_list) > 0:
@@ -106,21 +137,15 @@ def process_file(input_path, output_path):
                     })
                 time.sleep(1)
 
-        # Save progress
+        # Save progress continually
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(classified_data, f, ensure_ascii=False, indent=2)
 
     print(f"\n✅ Finished {output_path}. Saved {len(classified_data)} items.")
 
 def main():
-    # 1. Romania
-    process_file('reddit_scraper/scraped_reddit_data.json', 'reddit_scraper/classified_romania.json')
-    # 2. Roumanie
-    process_file('reddit_scraper/scraped_roumanie_data.json', 'reddit_scraper/classified_roumanie.json')
-    # 3. Romaniafetebune
-    process_file('reddit_scraper/scraped_romaniafetebune_data.json', 'reddit_scraper/classified_romaniafetebune.json')
-    # 4. Romaniacrazy
-    process_file('reddit_scraper/scraped_romaniacrazy_data.json', 'reddit_scraper/classified_romaniacrazy.json')
-
+    # Process the aggregated data
+    process_file('reddit_scraper/categorized_csv_data.json', 'reddit_scraper/double_checked_csv_data.json')
+   
 if __name__ == "__main__":
     main()

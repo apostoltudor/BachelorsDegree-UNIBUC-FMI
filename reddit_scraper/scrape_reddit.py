@@ -6,7 +6,13 @@ import os
 import random
 
 # Configuration
-TARGET_SUBS = ["romaniafetebune", "romaniacrazy"]
+TARGET_SUBS = [
+        # Main Romanian football subreddit (Steaua, Rapid, Dinamo banter).             # Steaua Bucharest specific sub.
+              # Dinamo specific sub.
+    "RomaniaLibera",       # Less moderated Romanian sub, often has more extreme political views.
+    "Balkans_irl",         # Balkan meme sub. Huge Romanian presence, massive amounts of nationalist banter and creative insults.
+    "politic"              # General Romanian politics (smaller, but targeted).
+]
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
@@ -126,9 +132,6 @@ def scrape():
         
         print("\nWaiting 30s before next subreddit to avoid IP ban...")
         time.sleep(30)
-
-if __name__ == "__main__":
-    scrape()
 
 if __name__ == "__main__":
     scrape()
