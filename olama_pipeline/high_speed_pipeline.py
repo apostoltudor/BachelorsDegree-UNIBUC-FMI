@@ -12,18 +12,22 @@ MODEL = "llama3"
 
 # Target categories that need massive boosting
 TARGET_CATEGORIES = [
-    "Politics & Public Personalities",
-    "Sports & Rivalry",
     "Misogyny & Objectification",
     "Ableism & Mental Stigma",
-    "Hate Speech & Discriminatory"
+    "Family & Religious Invective",
+    "Hate Speech & Discriminatory",
+    "Politics & Public Personalities",
+    "Online Forums & Social Media",
+    "Sports & Rivalry"
 ]
 
 def generate_bulk(category, examples, count=20, attempt=1):
     """Generates a block of sentences in one go with retry logic and long timeout."""
     prompt = f"""
 Ești un expert în lingvistică toxică română. 
-Generează o listă de exact {count} fraze noi, unice și foarte agresive pentru categoria: "{category}".
+Generează o listă de exact {count} înjurături noi, unice și foarte agresive pentru categoria: "{category}".
+Vreau ca frazele să sune ca niște comentarii reale de pe social media sau forumuri, nu ca niște propoziții formale.
+Folosește limbaj de stradă, argou autentic românesc și greșeli gramaticale tipice.
 
 Exemple de referință (pentru stil):
 {chr(10).join(['- ' + ex for ex in examples[:5]])}

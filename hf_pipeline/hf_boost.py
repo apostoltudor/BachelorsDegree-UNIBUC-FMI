@@ -29,7 +29,7 @@ def generate_batch(category, count=10):
     }
     
     prompt = f"""Ești un expert în lingvistică toxică și argou românesc.
-Generează o listă de exact {count} fraze noi, unice și foarte agresive (fără cenzură) pentru categoria: "{category}".
+Generează o listă de exact {count} fraze noi,injuraturi unice și foarte agresive (fără cenzură) pentru categoria: "{category}".
 Folosește limbaj de stradă, argou autentic românesc și greșeli gramaticale tipice.
 Vreau ca frazele să sune ca niște comentarii reale de pe social media sau forumuri.
 
