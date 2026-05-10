@@ -23,7 +23,6 @@ MINORITY_CATEGORIES = [
     "Family & Religious Invective",
     "Hate Speech & Discriminatory",
     "Politics & Public Personalities",
-    "Online Forums & Social Media",
     "Sports & Rivalry"
 ]
 
@@ -56,7 +55,7 @@ def get_examples(dataset, category, count=5):
     category_data = [item["text"] for item in dataset if item.get("category") == category]
     if not category_data:
         logger.warning(f"No existing examples found for category: {category}")
-        return ["Înjurătură generică", "Să te bată soarta", "Băi prostule"] # fallback
+        return ["Bagamias pulan ma-ta", "Dute in pizda matii", "Băi prostule esti prea muist"] # fallback
     return random.sample(category_data, min(len(category_data), count))
 
 def get_cuss_words_for_category(category, lexicon):
@@ -174,8 +173,8 @@ def main():
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
         project_dir = os.path.dirname(script_dir)
-        input_path = os.path.join(project_dir, "reddit_scraper", "reddit_aggregated_categorized.json")
-        output_path = os.path.join(project_dir, "reddit_scraper", "reddit_aggregated_enriched.json")
+        input_path = os.path.join(project_dir, "dataset_v7_balanced.json")
+        output_path = os.path.join(project_dir, "dataset_v8_balanced.json")
         
         dataset = load_dataset(input_path)
         lexicon = load_regexes()

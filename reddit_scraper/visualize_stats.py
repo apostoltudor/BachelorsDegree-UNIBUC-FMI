@@ -15,6 +15,10 @@ JSON_FILES = [
     "categorized_reddit_data.json",
     "categorized_roff_data.json",
     "reddit_aggregated_enriched.json",
+    "dataset_v7_balanced.json",
+    "dataset_v8_balanced.json",
+    "dataset_v6_balanced.json",
+    "dataset_final_v5.json"
 ]
 
 def load_data(filepath):
