@@ -82,4 +82,4 @@ def genereaza_harta_aerisita(nume_fisier, top_n=40):
     plt.tight_layout()
     plt.show()
 
-genereaza_harta_aerisita('C:\\Users\\Cosmin\\Documents\\NLP\\reddit_scraper\\categorized_reddit_data.json')
+genereaza_harta_aerisita('C:\\Users\\Cosmin\\Documents\\NLP\\regexes.json')
