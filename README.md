@@ -1,141 +1,216 @@
 # T3 – Testare Unitară în Java
 
-## 1. Descrierea Proiectului
+## Cuprins
+- [Despre proiect](#despre-proiect)
+- [Mediu de lucru](#mediu-de-lucru)
+- [Logica aplicației](#logica-aplicației)
+- [Cum am testat](#cum-am-testat)
+- [Rezultate](#rezultate)
+- [Dovezi](#dovezi)
+- [Video](#video)
+- [Raport AI](#raport-ai)
+- [Bibliografie](#bibliografie)
 
-Acest proiect implementează o suită de teste unitare în Java pentru o aplicație simulată, ca parte a temei **T3 - Testare Unitară**. Obiectivul principal a fost proiectarea testelor aplicând strategii de testare funcțională (Black-Box), testare structurală (White-Box) și validarea calității testelor prin Mutation Testing folosind uneltele specifice precum JUnit 5, JaCoCo și PIT.
+## Despre proiect
+Acest proiect este tema T3 de testare unitară. Am construit teste automate pentru o aplicație simplă care transformă un punctaj într-o notă finală.
 
-Proiectul a fost configurat utilizând ecosistemul Maven.
+Scopul a fost să verificăm aplicația din trei unghiuri:
+- testare funcțională, adică verificăm ce rezultat se întoarce pentru diferite valori de intrare;
+- testare structurală, adică urmărim ce părți din cod sunt executate;
+- mutation testing, adică verificăm dacă testele prind greșeli introduse intenționat în cod.
 
-## 2. Configurația Sistemului (Software & Hardware)
+## Mediu de lucru
 
-**Configurație Software:**
+### Software
+- Java 11 sau superior
+- Apache Maven 3.9.x
+- JUnit 5.10.2
+- JaCoCo 0.8.12
+- PITest 1.16.1
 
-- **Limbaj:** Java 11 (sau superior)
-- **Management și Build:** Apache Maven 3.9.x
-- **Testare Unitară:** JUnit 5 (versiunea 5.10.2)
-- **Code Coverage:** JaCoCo Engine (versiunea 0.8.12)
-- **Mutation Testing:** PITest (versiunea 1.16.1)
+### Hardware și IDE
+- MacBook Air M2
+- macOS Tahoe 26.0.1
+- VS Code
 
-**Configurație Hardware & Mediu:**
+## Logica aplicației
+Metoda testată este `calculateGrade(int score, int bonus, boolean extraCredit)`.
 
-- **Mediu Execuție:** Local Machine (macOS Tahoe 26.0.1 / MacBook Air M2)
-- **IDE Utilizat:** VS Code
+Fluxul ei conține:
+- o verificare de început pentru scor invalid;
+- o ramură pentru `extraCredit`;
+- o limitare a totalului la 105;
+- o buclă care compară totalul cu pragurile notelor.
 
-## 3. Arhitectura și Logica
+## Cum am testat
 
-Clasa testată este `Calculator.java`, mai exact metoda de calcul a notelor: `calculateGrade(int score, int bonus, boolean extraCredit)`.
-Pentru a satisface toate cerințele impuse, fluxul metodei a fost special elaborat astfel încât să conțină:
+### 1. Testare funcțională
+Am verificat dacă metoda returnează nota corectă pentru valori diferite de intrare.
 
-- **Structuri decizionale de bază:** `if` / `if-else`
-- **Condiții compuse / decizii complexe:** `if (score < 0 || score > 100)`, `if (thresholds[i] == 90 && extraCredit)`
-- **O instrucțiune repetitivă:** `for` loop iterând printr-un array de praguri predefinite de la 100 până la nota de trecere.
+### 2. Testare structurală
+Am urmărit codul pe mai multe niveluri:
+- `StatementCoverageTest` pentru a executa fiecare instrucțiune importantă;
+- `BranchCoverageTest` pentru a trece prin ramurile principale ale codului;
+- `ConditionCoverageTest` pentru a verifica părțile din condițiile compuse;
+- `IndependentCircuitsTest` pentru a acoperi drumuri diferite și importante prin program.
 
-## 4. Strategii de Testare Implementate
+### 3. Mutation testing
+Am folosit PITest pentru a vedea dacă testele detectează modificări mici și greșite din cod.
 
-Suitele de testare se împart în 3 abordări majore:
+## Graful de control
 
-**A. Testare Funcțională (Black-Box)**
+![Graf CFG calculateGrade](image/graf.png)
 
-- **Partiționarea în clase de echivalență (`EquivalencePartitioningTest`):** Parametrii de intrare au fost divizați în intervale de clase invalide (ex: sub 0 sau peste 100) și clase valide (fiecare tip de notă în funcție de range-ul ei).
-- **Analiza Valorilor de Frontieră (`BoundaryValueTest`):** Testarea la limite (sub prag, exact pe prag, imediat deasupra pragului) pentru intervalele notelor (60, 70, 80, 90 și valoarea limită fixată 105).
+Legenda nodurilor:
+- 1 = validare score
+- 2 = excepție pentru scor invalid
+- 3 = după validare și decizie extraCredit
+- 4 = total cu +5
+- 5 = total fără +5
+- 6 = verificare total > 105
+- 7 = plafonare la 105
+- 8 = inițializări înainte de buclă
+- 9 = condiția buclei
+- 10 = verificare prag
+- 11 = verificare A+
+- 12 = return A+
+- 13 = return nota curentă
+- 14 = i++
+- 15 = return F
 
-**B. Testare Structurală (White-Box)**
-
-- **Acoperire la Nivel de Instrucțiune (`StatementCoverageTest`):** Ne-am asigurat că fiecare linie de cod se execută cel puțin o dată.
-- **Acoperire la Nivel de Decizie/Ramură (`BranchCoverageTest`):** Fiecare ramură din Graful Fluxului de Control a fost atinsă de setul de teste.
-- **Acoperire la Nivel de Condiție și MC/DC (`ConditionCoverageTest`):** Verificare la nivel atomic al predicatelor logice complexe, dovedind efectul izolat al fiecărei expresii care intră într-un `if` AND/OR.
-- **Testarea Circuitelor Independente (`IndependentCircuitsTest`):** Bazat pe complexitatea ciclomatică McCabe (*V(G) = 5*), unde am derivat 5 căi total independente din CFG și am scris câte un test dedicat pentru fiecare drum fundamental parcurs de cod.
-
-**C. Testare bazată pe mutanți (Mutation Testing)**
-
-- S-a utilizat pluginul PITest pentru generarea de buguri forțate pe cod.
-- Mutanții "supraviețuitori" au fost atent analizați, iar noi am adăugat teste dedicate în `MutationKillerTest` strict pentru omorârea mutanților de ordin unu ce nu puteau fi prinși prin acoperirea clasică.
-
-## 5. Fragmente de Cod Relevante
-
-**A. Logica principală supusă testelor (`Calculator.java`)**
-
-```java
-public static String calculateGrade(int score, int bonus, boolean extraCredit) {
-    if (score < 0 || score > 100) {
-        throw new IllegalArgumentException("Score must be between 0 and 100");
-    }
-    // ... stabilire total / aplicare bonus / limitare 105
-    for (int i = 0; i < thresholds.length; i++) {
-        if (total >= thresholds[i]) {
-            if (thresholds[i] == 90 && extraCredit) {
-                return "A+";
-            }
-            return grades[i];
-        }
-    }
-    return "F";
-}
-```
-
-**B. Fragment din Acoperirea Condițiilor - MC/DC (`ConditionCoverageTest.java`)**
-
-```java
-@Test
-@DisplayName("t1: C1=FALSE, C2=TRUE → D1=TRUE (score=101 demonstreaza efectul C2)")
-void t1_c1False_c2True() {
-    assertThrows(IllegalArgumentException.class, () ->
-        Calculator.calculateGrade(101, 0, false));
-}
-```
-
-**C. Test Suplimentar creat pentru prinderea unui Mutant (`MutationKillerTest.java`)**
+### BranchCoverageTest
 
 ```java
-// Mutantul ascundea modificarea lui +5 (extra) in +6
-@Test
-@DisplayName("score=64, bonus=0, extra=true → D (nu C cum ar da mutantul +6)")
-void killMutant2_precizieExtraCreditLaPrag70() {
-    // Normal:  total = 64 + 0 + 5 = 69 → D
-    // Mutant:  total = 64 + 0 + 6 = 70 → C (DIFERIT!)
-    assertEquals("D", Calculator.calculateGrade(64, 0, true));
+void d1True() {
+  assertThrows(IllegalArgumentException.class, () ->
+    Calculator.calculateGrade(-1, 0, false));
 }
 ```
+Noduri activate: **1, 2**
+Explicație: scorul este invalid și testul intră direct pe ramura de excepție.
 
-## 6. Rezultate Experimentale și Interpretare
+```java
+void d1False() {
+  assertEquals("F", Calculator.calculateGrade(50, 0, false));
+}
+```
+Noduri activate: **15**
+Explicație: scorul este valid, iar rezultatul final este `F`.
 
-**Acoperirea Codului (Code Coverage cu JaCoCo):**
-Datorită testelor noastre riguroase structurale, am atins:
+```java
+void d2True() {
+  assertEquals("C", Calculator.calculateGrade(65, 0, true));
+}
+```
+Noduri activate: **4, 13**
+Explicație: `extraCredit = true` activează ramura cu bonus.
 
-- **100% Branch Coverage** (toate ramificațiile acoperite)
-- **94% Line Coverage** (o anumită linie `throw` nu a putut fi atinsă la un branch absolut, dar overall toate deciziile sunt testate)
+```java
+void d2False() {
+  assertEquals("D", Calculator.calculateGrade(65, 0, false));
+}
+```
+Noduri activate: **5, 13**
+Explicație: fără `extraCredit`, metoda folosește ramura normală.
 
-<img width="1014" height="369" alt="jacoco" src="https://github.com/user-attachments/assets/aca42f9d-a52e-412f-b037-7de309265f57" />
+```java
+void d3True() {
+  assertEquals("A", Calculator.calculateGrade(100, 20, false));
+}
+```
+Noduri activate: **7, 13**
+Explicație: totalul trece de 105 și se aplică plafonarea.
 
+```java
+void d3False() {
+  assertEquals("C", Calculator.calculateGrade(75, 0, false));
+}
+```
+Noduri activate: **13**
+Explicație: totalul rămâne sub plafon și merge direct la nota finală.
 
-**Analiza Mutanților (PITest):**
-A fost înregistrat un **Mutation Score de 87%**. Din cei 39 de mutanți generați, ambele suite reușesc să identifice 34 de tipuri de defecte inserate.
-Cei 5 mutanți "supraviețuitori" lăsați în raport subliniază conceptul de **Mutanți Echivalenți**:
+```java
+void d4TrueGaseste() {
+  assertEquals("A", Calculator.calculateGrade(95, 0, false));
+}
+```
+Noduri activate: **13**
+Explicație: prima comparație din buclă găsește nota `A`.
 
-- Mutantul a modificat de exemplu `105` în `106` pe if-ul `if (total > 105)`. E absolut echivalent matematic pentru că testul continuă la filtrul `>= 90` și returnează oricum nota A. Am adăugat documentarea specifică a acestora fix în clasă ca exemple de mutații invizibile.
+```java
+void d4FalseEpuizare() {
+  assertEquals("F", Calculator.calculateGrade(30, 0, false));
+}
+```
+Noduri activate: **15**
+Explicație: nicio condiție din buclă nu este adevărată, deci se ajunge la `F`.
 
-<img width="811" height="455" alt="pitest" src="https://github.com/user-attachments/assets/00f9198e-27bc-4729-9fdc-c2cb3bf0d121" />
+```java
+void d5True() {
+  assertEquals("B", Calculator.calculateGrade(85, 0, false));
+}
+```
+Noduri activate: **10, 13**
+Explicație: totalul trece de pragul 80 și se întoarce `B`.
 
+```java
+void d5False() {
+  assertEquals("B", Calculator.calculateGrade(85, 0, false));
+}
+```
+Noduri activate: **10, 14**
+Explicație: prima comparație e falsă, deci se trece la următorul prag.
 
-## 7. Capturi de Ecran doveditoare
+```java
+void d6True() {
+  assertEquals("A+", Calculator.calculateGrade(90, 0, true));
+}
+```
+Noduri activate: **11, 12**
+Explicație: pragul 90 și `extraCredit = true` duc la `A+`.
 
-- Execuția testelor (88/88 passed):
-  <img width="1002" height="199" alt="junit" src="https://github.com/user-attachments/assets/2a75a7dc-5aed-45f9-90bf-89b86f63e5cb" />
+```java
+void d6False() {
+  assertEquals("A", Calculator.calculateGrade(95, 0, false));
+}
+```
+Noduri activate: **11, 13**
+Explicație: pragul este atins, dar fără `extraCredit` se întoarce `A`.
 
-- Diagrama Grafului de Control al Fluxului (CFG) generată în diagrams.net pe baza codului pentru complexitatea ciclomatică:
-  <img width="1626" height="741" alt="diagrama_tss 22 30 32" src="https://github.com/user-attachments/assets/1b2ed5ec-0487-4562-8c92-f4856a8d2fc4" />
+### ConditionCoverageTest și IndependentCircuitsTest
+- **Acoperire la nivel de condiții și MC/DC:** verificăm fiecare parte din condițiile scrise în `if`.
+  - Exemplu: la `score < 0 || score > 100`, testăm separat `score = -1` și `score = 101`.
+- **Testarea circuitelor independente:** am ales 5 drumuri diferite prin cod și am scris câte un test pentru fiecare.
+  - Exemplu: un test merge pe drumul cu excepție, iar altul merge pe drumul care duce la `A+`.
 
+### MutationTesting
+- PITest a generat mutanți în cod.
+- Testele dedicate din `MutationKillerTest` au fost făcute ca să prindă acele greșeli.
 
-## 8. Demonstrație Video
+## Rezultate
 
+### Code coverage
+- 100% Branch Coverage
+- 94% Line Coverage
+
+### Mutation score
+- Mutation Score: 87%
+- 34 mutanți au fost omorâți din 39 generați
+
+## Dovezi
+- Execuția testelor: 88/88 passed
+- Diagrama CFG a fost generată pe baza metodei `calculateGrade`
+- Capturi de ecran pentru JaCoCo și PITest sunt incluse în proiect
+
+## Video
 https://youtu.be/s8MJVBEvsTY
 
-## 9. Raport Utilizare Asistenți AI
+## Raport AI
 
+Această secțiune poate fi completată cu scurtă descriere despre cum au fost folosiți asistenții AI în realizarea proiectului.
 
 ## Bibliografie
-
-1. Junit 5 User Guide. Disponibil la: https://junit.org/junit5/docs/current/user-guide/
-2. JaCoCo Documentation. Disponibil la: https://www.jacoco.org/jacoco/
-3. PITest Mutation testing system. Disponibil la: https://pitest.org/
-4. Google, Gemini, https://gemini.google.com/, Data generării: Aprilie 2026.
+1. JUnit 5 User Guide: https://junit.org/junit5/docs/current/user-guide/
+2. JaCoCo Documentation: https://www.jacoco.org/jacoco/
+3. PITest Documentation: https://pitest.org/
+4. Google Gemini: https://gemini.google.com/

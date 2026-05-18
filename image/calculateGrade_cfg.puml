@@ -1,0 +1,59 @@
+@startuml
+' Control Flow Graph pentru Calculator.calculateGrade(score, bonus, extraCredit)
+
+title CFG - calculateGrade
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Consolas
+skinparam ArrowColor #2F4F4F
+skinparam activity {
+  BorderColor #2F4F4F
+  DiamondBorderColor #2F4F4F
+  BackgroundColor #F9FBFC
+  DiamondBackgroundColor #EEF4F7
+  StartColor #2E8B57
+  EndColor #B22222
+}
+
+start
+
+if (score < 0 OR score > 100?) then (da)
+  :throw IllegalArgumentException;
+  stop
+else (nu)
+endif
+
+if (extraCredit?) then (da)
+  :total = score + bonus + 5;
+else (nu)
+  :total = score + bonus;
+endif
+
+if (total > 105?) then (da)
+  :total = 105;
+else (nu)
+endif
+
+:grades = {A, B, C, D};
+:thresholds = {90, 80, 70, 60};
+:i = 0;
+
+while (i < thresholds.length?) is (da)
+  if (total >= thresholds[i]?) then (da)
+    if (thresholds[i] == 90 AND extraCredit?) then (da)
+      :return "A+";
+      stop
+    else (nu)
+      :return grades[i];
+      stop
+    endif
+  else (nu)
+    :i++;
+  endif
+endwhile (nu)
+
+:return "F";
+stop
+
+@enduml
