@@ -15,6 +15,26 @@
 
 Acest proiect reprezintă tema T3 pentru materia de testare unitară. Obiectivul principal a fost validarea unei funcții care transformă un punctaj (score), un bonus și o activitate extra (extraCredit) într-o notă finală (calificativ de la F la A+).
 
+### Funcția Testată: `calculateGrade()`
+
+Funcția pe care am testat-o se numește `calculateGrade(int score, int bonus, boolean extraCredit)` și calculează calificativul (nota finală) al unui student pe baza următoarelor criterii:
+
+- **Parametrul `score`**: Punctajul obținut de student (0-100). Orice valoare sub 0 sau peste 100 aruncă excepție.
+- **Parametrul `bonus`**: Puncte suplimentare pe care le poate obține studentul (ex. puncte extra pentru teme).
+- **Parametrul `extraCredit`**: Flag boolean care, dacă este `true`, adaugă 5 puncte suplimentare la total.
+
+**Procesul de calcul:**
+1. Validează scorul (trebuie să fie între 0 și 100 inclusiv).
+2. Calculează totalul: `total = score + bonus + (extraCredit ? 5 : 0)`.
+3. Plafonează totalul la maxim 105 puncte.
+4. Compară totalul cu pragurile de note și returnează calificativul corespunzător:
+   - **A+ (Excelenț)**: total ≥ 90 și `extraCredit = true`
+   - **A (Foarte bine)**: total ≥ 90
+   - **B (Bine)**: total ≥ 80
+   - **C (Satisfăcător)**: total ≥ 70
+   - **D (Admis)**: total ≥ 60
+   - **F (Picată)**: total < 60
+
 Ne-am asigurat prin teste că logica, deciziile, buclele și rezultatele returnate sunt 100% corecte și logice. Am analizat proiectul folosind:
 
 - **Testarea Funcțională (Black-Box Testing)**: aplicând tehnici strict pe baza specificațiilor.
