@@ -4,6 +4,7 @@
 
 - [Despre proiect](#despre-proiect)
 - [Mediu de lucru](#mediu-de-lucru)
+- [Logica aplicației](#logica-aplicației)
 - [Testare Funcțională (Black-Box)](#testare-funcțională-black-box)
 - [Testare Structurală (White-Box)](#testare-structurală-white-box)
 - [Mutation Testing](#mutation-testing)
@@ -12,24 +13,13 @@
 
 ## Despre proiect
 
-Funcția pe care am testat-o se numește `calculateGrade(int score, int bonus, boolean extraCredit)` și calculează calificativul (nota finală) al unui student pe baza următoarelor criterii:
+Acest proiect reprezintă tema T3 pentru materia de testare unitară. Obiectivul principal a fost validarea unei funcții care transformă un punctaj (score), un bonus și o activitate extra (extraCredit) într-o notă finală (calificativ de la F la A+).
 
-- **Parametrul `score`**: Punctajul obținut de student (0-100). Orice valoare sub 0 sau peste 100 aruncă excepție.
-- **Parametrul `bonus`**: Puncte suplimentare pe care le poate obține studentul (ex. puncte extra pentru teme).
-- **Parametrul `extraCredit`**: Flag boolean care, dacă este `true`, adaugă 5 puncte suplimentare la total.
+Ne-am asigurat prin teste că logica, deciziile, buclele și rezultatele returnate sunt 100% corecte și logice. Am analizat proiectul folosind:
 
-**Procesul de calcul:**
-1. Validează scorul (trebuie să fie între 0 și 100 inclusiv).
-2. Calculează totalul: `total = score + bonus + (extraCredit ? 5 : 0)`.
-3. Plafonează totalul la maxim 105 puncte.
-4. Compară totalul cu pragurile de note și returnează calificativul corespunzător:
-   - **A+ (Excelenț)**: total ≥ 90 și `extraCredit = true`
-   - **A (Foarte bine)**: total ≥ 90
-   - **B (Bine)**: total ≥ 80
-   - **C (Satisfăcător)**: total ≥ 70
-   - **D (Admis)**: total ≥ 60
-   - **F (Picată)**: total < 60
-
+- **Testarea Funcțională (Black-Box Testing)**: aplicând tehnici strict pe baza specificațiilor.
+- **Testarea Structurală (White-Box Testing)**: ghidându-ne după codul sursă și structura internă.
+- **Mutation Testing**: evaluând barierele noastre de teste la defecte injectate artificial.
 
 ## Mediu de lucru
 
@@ -46,7 +36,21 @@ Funcția pe care am testat-o se numește `calculateGrade(int score, int bonus, b
 - MacBook Air M2
 - macOS Tahoe 26.0.1
 
+## Logica aplicației
+
+Metoda principală este `calculateGrade(int score, int bonus, boolean extraCredit)`.
+Algoritmul are următorii pași logici:
+
+1. Validează parametrul de intrare `score`.
+2. Adaugă `bonus` și un spor fix (dacă `extraCredit` este adevărat).
+3. Plafonează totalul la un maxim admis.
+4. Iterează printr-o listă de praguri pentru a determina și returna nota corespunzătoare, incluzând condiții speciale pentru nota maximă (A+).
+
+---
+
 ## Testare Funcțională (Black-Box)
+
+Această etapă de testare a fost concepută fără a avea acces la codul sursă, folosindu-ne strict de specificațiile aplicației.
 
 ### 1. Partiționarea în Clase de Echivalență (Equivalence Partitioning)
 
@@ -118,147 +122,121 @@ Această etapă de testare a fost realizată analizând direct codul sursă scri
 - 14 = instrucțiune trecere la următoarea iterație din buclă (i++)
 - 15 = instrucțiune return F (dacă bucla se încheie fără să găsească o notă)
 
+#### Complexitatea Ciclomatică McCabe
+
+Pentru a afla efortul de testare și numărul de trasee complet diferite prin program, am calculat complexitatea ciclomatică folosind formula:
+`V(G) = e - n + 2`
+În graful nostru avem 17 arce (liniile de legătură) și 14 noduri active din flux, ceea ce înseamnă:
+`V(G) = 17 - 14 + 2 = 5`
+Conform acestei formule matematice, există exact **5 circuite (drumuri) independente** care trebuie testate.
+
 ---
 
 ### 1. Acoperire la Nivel de Instrucțiune (Statement Coverage)
 
-Această tehnică ne obligă să avem teste care, puse cap la cap, execută și vizitează absolut fiecare instrucțiune (fiecare nod din graf) măcar o singură dată. Nivelul acesta este considerat minimul necesar, scopul fiind doar să ne asigurăm că nu există "cod mort" în aplicație. Baza pentru a atinge Statement Coverage 100% este vizitarea fiecarui nod din graf.
-
-```java
-// 1. Viziteaza nod 1, 2: throw exception
-@Test
-void testExceptieScoreInvalid() {
-    assertThrows(IllegalArgumentException.class, () ->
-        Calculator.calculateGrade(-5, 0, false));
-}
-
-// 2. Viziteaza nod 3, 4: if (extraCredit) ramura TRUE
-@Test
-void testExtraCreditTrue() {
-    assertEquals("B", Calculator.calculateGrade(80, 0, true));
-}
-
-// 3. Viziteaza nod 6, 7: if (total > 105) ramura TRUE
-@Test
-void testLimitareTotal105() {
-    assertEquals("A", Calculator.calculateGrade(100, 20, false));
-}
-
-// 4. Viziteaza nod 11, 12: if (thresholds[i] == 90 && extraCredit) ramura TRUE
-@Test
-void testNotaAPlus() {
-    assertEquals("A+", Calculator.calculateGrade(90, 0, true));
-}
-
-// 5. Viziteaza nod 14, 15: bucla se epuizeaza, return F
-@Test
-void testNotaF() {
-    assertEquals("F", Calculator.calculateGrade(30, 0, false));
-}
-```
+Această tehnică ne obligă să avem teste care, puse cap la cap, execută și vizitează absolut fiecare instrucțiune (fiecare nod din graf) măcar o singură dată. Nivelul acesta este considerat minimul necesar, scopul fiind doar să ne asigurăm că nu există "cod mort" în aplicație. Baza pentru a atinge Statement Coverage 100% este executarea tuturor traseelor obligatorii din graf.
 
 ### 2. Acoperire la Nivel de Decizie/Ramură (Branch Coverage)
 
 Această etapă este superioară acoperirii de instrucțiuni. Din fiecare nod de decizie (romb) trebuie să plecăm cel puțin o dată pe varianta Adevărat (True) și cel puțin o dată pe varianta Fals (False).
 
 ```java
-// Decision 1: Validare score (score < 0 || score > 100)
-@Nested
-class D1_ValidareScore {
-    @Test
-    void d1True() {  // TRUE: score invalid
-        assertThrows(IllegalArgumentException.class, () ->
-            Calculator.calculateGrade(-1, 0, false));
-    }
-    // Noduri: 1 → 2
-    
-    @Test
-    void d1False() {  // FALSE: score valid
-        assertEquals("F", Calculator.calculateGrade(50, 0, false));
-    }
-    // Noduri: 1 → 3 → ... → 15
-}
-
-// Decision 2: Extra credit (extraCredit)
-@Nested
-class D2_ExtraCredit {
-    @Test
-    void d2True() {  // TRUE: extra=true
-        assertEquals("C", Calculator.calculateGrade(65, 0, true));
-    }
-    // Noduri: 1 → 3 → 4 → 6 → 8 → 9 → 10 → 13
-    
-    @Test
-    void d2False() {  // FALSE: extra=false
-        assertEquals("D", Calculator.calculateGrade(65, 0, false));
-    }
-    // Noduri: 1 → 3 → 5 → 6 → 8 → 9 → 10 → 13
-}
-
-// Decision 3: Limitare total (total > 105)
-@Nested
-class D3_LimitareTotal {
-    @Test
-    void d3True() {  // TRUE: total > 105
-        assertEquals("A", Calculator.calculateGrade(100, 20, false));
-    }
-    // Noduri: 1 → 3 → 5 → 6 → 7 → 8 → 9 → 10 → 13
-    
-    @Test
-    void d3False() {  // FALSE: total ≤ 105
-        assertEquals("C", Calculator.calculateGrade(75, 0, false));
-    }
-    // Noduri: 1 → 3 → 5 → 6(F) → 8 → 9 → 10 → 13
-}
-
-// Decision 4: Condiția buclei (i < 4)
-@Nested
-class D4_BuclaFor {
-    @Test
-    void d4TrueGaseste() {  // TRUE: se intra in bucla
-        assertEquals("A", Calculator.calculateGrade(95, 0, false));
-    }
-    // Noduri: ... → 9(T) → 10(T) → 13 (exit buclă)
-    
-    @Test
-    void d4FalseEpuizare() {  // FALSE: se epuizeaza bucla (intoarce F)
-        assertEquals("F", Calculator.calculateGrade(30, 0, false));
-    }
-    // Noduri: ... → 9(F) → 15 (exit buclă)
-}
-
-// Decision 5: Verificare prag (total >= thresholds[i])
-@Nested
-class D5_VerificarePrag {
-    @Test
-    void d5True() {  // TRUE: total >= prag
-        assertEquals("B", Calculator.calculateGrade(85, 0, false));
-    }
-    // Noduri: ... → 10(T) → 13 (return nota)
-    
-    @Test
-    void d5False() {  // FALSE: total < prag
-        assertEquals("B", Calculator.calculateGrade(85, 0, false));
-    }
-    // Noduri: ... → 10(F) → 14 → 9 (urmatoarea iteratie)
-}
-
-// Decision 6: Condiție A+ (thresholds[i] == 90 && extraCredit)
-@Nested
-class D6_ConditiaAPlus {
-    @Test
-    void d6True() {  // TRUE: ambele condiții true
-        assertEquals("A+", Calculator.calculateGrade(90, 0, true));
-    }
-    // Noduri: ... → 11(T) → 12 (return A+)
-    
-    @Test
-    void d6False() {  // FALSE: cel puțin una falsa
-        assertEquals("A", Calculator.calculateGrade(95, 0, false));
-    }
-    // Noduri: ... → 11(F) → 13 (return nota)
+void d1True() {
+  assertThrows(IllegalArgumentException.class, () ->
+    Calculator.calculateGrade(-1, 0, false));
 }
 ```
+Noduri activate: **1, 2**
+Explicație: scorul este invalid și testul intră direct pe ramura de excepție.
+
+```java
+void d1False() {
+  assertEquals("F", Calculator.calculateGrade(50, 0, false));
+}
+```
+Noduri activate: **1, 3... 15**
+Explicație: scorul este valid, deci condiția `(score < 0 || score > 100)` este falsă, iar programul continuă executarea.
+
+```java
+void d2True() {
+  assertEquals("C", Calculator.calculateGrade(65, 0, true));
+}
+```
+Noduri activate: **3, 4**
+Explicație: `extraCredit = true` activează ramura `True` a deciziei 2 (se adaugă bonusul de 5 puncte).
+
+```java
+void d2False() {
+  assertEquals("D", Calculator.calculateGrade(65, 0, false));
+}
+```
+Noduri activate: **3, 5**
+Explicație: fără `extraCredit`, decizia 2 este `False`, iar metoda folosește ramura normală de adunare (fără +5).
+
+```java
+void d3True() {
+  assertEquals("A", Calculator.calculateGrade(100, 20, false));
+}
+```
+Noduri activate: **6, 7**
+Explicație: totalul trece de 105, activând decizia 3 pe `True`, și se aplică plafonarea la 105.
+
+```java
+void d3False() {
+  assertEquals("C", Calculator.calculateGrade(75, 0, false));
+}
+```
+Noduri activate: **6, 8**
+Explicație: totalul rămâne sub plafon (decizia 3 e `False`) și merge mai departe spre buclă.
+
+```java
+void d4TrueGaseste() {
+  assertEquals("A", Calculator.calculateGrade(95, 0, false));
+}
+```
+Noduri activate: **9, 10...**
+Explicație: condiția buclei `(i < thresholds.length)` este `True` și se intră în iterare, găsind nota `A`.
+
+```java
+void d4FalseEpuizare() {
+  assertEquals("F", Calculator.calculateGrade(30, 0, false));
+}
+```
+Noduri activate: **9, 15**
+Explicație: nicio condiție din buclă nu se mai potrivește, `i` ajunge la final, condiția buclei devine `False` și se ajunge la `F`.
+
+```java
+void d5True() {
+  assertEquals("B", Calculator.calculateGrade(85, 0, false));
+}
+```
+Noduri activate: **10, 11**
+Explicație: totalul trece de pragul 80 (`total >= thresholds[i]` este `True`), deci se verifică mai departe tipul de notă.
+
+```java
+void d5False() {
+  assertEquals("B", Calculator.calculateGrade(85, 0, false)); // La prima iterație pentru pragul 90
+}
+```
+Noduri activate: **10, 14**
+Explicație: la iterația cu pragul 90, `85 >= 90` este `False`, deci se trece la următorul prag (`i++`).
+
+```java
+void d6True() {
+  assertEquals("A+", Calculator.calculateGrade(90, 0, true));
+}
+```
+Noduri activate: **11, 12**
+Explicație: pragul este 90 și `extraCredit = true`, deci condiția compusă e `True` și duce la returnarea notei `A+`.
+
+```java
+void d6False() {
+  assertEquals("A", Calculator.calculateGrade(95, 0, false));
+}
+```
+Noduri activate: **11, 13**
+Explicație: pragul este atins, dar fără `extraCredit` condiția compusă e `False`, și se întoarce `A` normal.
+
 ### 3. Acoperire la Nivel de Condiție și MC/DC (Condition Coverage)
 
 În program avem două locuri unde se folosesc condiții compuse (combinate cu OR `||` și AND `&&`). Branch Coverage tratează doar decizia per ansamblu, dar noi vrem să ne asigurăm că fiecare sub-condiție afectează rezultatul individual, conform tehnicii Modified Condition / Decision Coverage.
@@ -268,23 +246,20 @@ Avem două sub-condiții (C1: `score < 0`, C2: `score > 100`). Am făcut teste d
 
 ```java
 // C1 = False, C2 = True => Decizie = True
-@Test
 void t1_c1False_c2True() {
-    assertThrows(IllegalArgumentException.class, () ->
-        Calculator.calculateGrade(101, 0, false));
+  assertThrows(IllegalArgumentException.class, () ->
+    Calculator.calculateGrade(101, 0, false));
 }
 
 // C1 = True, C2 = False => Decizie = True
-@Test
 void t2_c1True_c2False() {
-    assertThrows(IllegalArgumentException.class, () ->
-        Calculator.calculateGrade(-1, 0, false));
+  assertThrows(IllegalArgumentException.class, () ->
+    Calculator.calculateGrade(-1, 0, false));
 }
 
 // C1 = False, C2 = False => Decizie = False (caz de bază)
-@Test
 void t3_c1False_c2False() {
-    assertEquals("F", Calculator.calculateGrade(50, 0, false));
+  assertEquals("F", Calculator.calculateGrade(50, 0, false));
 }
 ```
 
@@ -293,21 +268,18 @@ Pentru a primi nota A+ trebuie ca ambele părți să fie corecte (C3: `threshold
 
 ```java
 // C3 = True, C4 = True => Decizie = True (caz de bază A+)
-@Test
 void t4_c3True_c4True() {
-    assertEquals("A+", Calculator.calculateGrade(90, 0, true));
+  assertEquals("A+", Calculator.calculateGrade(90, 0, true));
 }
 
 // C3 = True, C4 = False => Decizie = False
-@Test
 void t5_c3True_c4False() {
-    assertEquals("A", Calculator.calculateGrade(95, 0, false));
+  assertEquals("A", Calculator.calculateGrade(95, 0, false));
 }
 
 // C3 = False, C4 = True => Decizie = False
-@Test
 void t6_c3False_c4True() {
-    assertEquals("B", Calculator.calculateGrade(77, 0, true));
+  assertEquals("B", Calculator.calculateGrade(77, 0, true));
 }
 ```
 
@@ -329,16 +301,16 @@ Așa cum am calculat folosind formula McCabe `V(G) = 5`, trebuie să planificăm
 
 Pentru a analiza cu adevărat cât de bune sunt testele pe care le-am scris, am apelat la Mutation Testing folosind plugin-ul PITest.
 
-**Logica Procesului:** PITest introduce muntanții. Intră prin codul din spate și modifică din greșeală părți de structură. De exemplu, în loc să lase `total = score + bonus + 5`, el scrie  `total = score + bonus + 6`.
-Aceasta poartă numele de mutant. Apoi rulează suita noastră de teste. Dacă testele noastre prind acest detaliu, înseamnă că **testul a omorât mutantul**, fiind așadar un test calitativ.
+**Logica Procesului:** PITest introduce muntanții. Intră prin codul din spate și modifică din greșeală părți de structură. De exemplu, în loc să lase `total = score + bonus + 5`, el scrie pe ascuns `total = score + bonus + 6`.
+Aceasta poartă numele de mutant. Apoi rulează suita noastră de teste. Dacă testele noastre prind acest detaliu și dau "roșu" (pică), înseamnă că **testul a omorât mutantul**, fiind așadar un test calitativ.
 
-**Mutanți Echivalenți:** Unii mutanți nu pot fi niciodată omorâți matematic pentru că ei sunt logic identici cu originalul. Dacă mutantul transformă `if(total > 105)` în `if(total >= 105)` când totalul era de dinainte fixat ca fiind 105, comportamentul vizibil e tot același, deci rezultatul rămâne echivalent cu funcția originală. 
+**Mutanți Echivalenți:** Unii mutanți nu pot fi niciodată omorâți matematic pentru că ei sunt logic identici cu originalul. Dacă mutantul transformă `if(total > 105)` în `if(total >= 105)` când totalul era de dinainte fixat ca fiind 105, comportamentul vizibil e tot același, deci rezultatul rămâne echivalent cu funcția originală. Acest lucru a fost documentat clar în teste.
 
 ## Rezultate și Dovezi
 
-- **Execuția testelor**: 88/88 Passed.
-- **Code Coverage**: Avem o acoperire de linie (Line Coverage) de 94% și un 100% Branch Coverage raportat de JaCoCo.
-- **Mutation Score**: Evaluarea testelor ne-a confirmat un scor global de 87% mutanți uciși la execuție (34 de defecte blocate activ din cele 39 inserate de plugin).
+- **Execuția testelor**: 88/88 Passed. Suita de teste dezvoltată rulează ireproșabil.
+- **Code Coverage**: Avem o acoperire de linie (Line Coverage) de 94% și un remarcabil 100% Branch Coverage raportat de JaCoCo.
+- **Mutation Score**: Evaluarea severă a testelor ne-a confirmat un scor global de 87% mutanți uciși la execuție (34 de defecte blocate activ din cele 39 inserate de plugin).
 
 ## Video, Raport AI și Bibliografie
 
