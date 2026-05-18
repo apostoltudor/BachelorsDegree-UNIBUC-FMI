@@ -65,11 +65,11 @@ public class AICalculatorTest {
 
 ## 3. Interpretare și Compararea Suitelor de Teste
 
-Analizând comparativ suita autogenerată de AI (7 teste) cu suita proprie dezvoltată manual (88 de teste), am identificat diferențe majore în calitatea și profunzimea testării:
+Analizând comparativ suita autogenerată de AI (7 teste) cu suita proprie dezvoltată manual (88 de teste), am identificat diferențe majore în calitatea testării:
 
 ### A. Acoperirea Codului (Code Coverage)
 
-- **AI-ul:** A obținut un *Statement Coverage* bun, vizitând majoritatea liniilor de cod (Happy Paths). Totuși, a ignorat complet tehnici academice precum **MC/DC** (Modified Condition/Decision Coverage). De exemplu, nu a izolat corect sub-condițiile din `score < 0 || score > 100` pentru a le demonstra independența logică.
+- **AI-ul:** A obținut un *Statement Coverage* bun, vizitând majoritatea liniilor de cod. Totuși, a ignorat complet tehnici academice precum **MC/DC** (Modified Condition/Decision Coverage). De exemplu, nu a izolat corect sub-condițiile din `score < 0 || score > 100` pentru a le demonstra independența logică.
 - **Suita proprie:** Atinge 100% *Branch Coverage* verificând ambele valențe (`True`/`False`) ale fiecărei decizii și respectă cu strictețe rutele definite prin calculul Complexității Ciclomatice McCabe.
 
 ### B. Erorile de Frontieră (BVA)
@@ -79,12 +79,12 @@ Analizând comparativ suita autogenerată de AI (7 teste) cu suita proprie dezvo
 
 ### C. Puterea împotriva Mutanților (Mutation Testing)
 
-- **AI-ul:** O suită autogenerată eșuează lamentabil la testele bazate pe mutații [2]. Deoarece AI-ul nu testează frontierele, dacă PITest modifică un `total >= 90` în `total > 90`, testele AI (care au folosit valoarea `95`) vor continua să treacă (mutantul supraviețuiește).
+- **AI-ul:** O suită autogenerată eșuează la testele bazate pe mutații [2]. Deoarece AI-ul nu testează frontierele, dacă PITest modifică un `total >= 90` în `total > 90`, testele AI (care au folosit valoarea `95`) vor continua să treacă (mutantul supraviețuiește).
 - **Suita proprie:** Având 88 de teste specifice (BVA și EP), suita noastră a obținut un Mutation Score excelent de 87%, demonstrând că "ucide" imediat orice modificare a constantelor sau operatorilor.
 
 ### Concluzie
 
-Deși tool-urile AI precum ChatGPT ajută la crearea rapidă a unui "schelet" de teste (Boilerplate code) și ating un Statement Coverage de bază într-un timp scurt, ele **nu pot înlocui** gândirea analitică a inginerului software. Pentru a construi software fiabil (anti-fragil), este absolut necesară aplicarea tehnicilor riguroase de testare structurală și funcțională.
+Deși tool-urile AI precum ChatGPT ajută la crearea rapidă a unui "schelet" de teste și ating un Statement Coverage de bază într-un timp scurt, ele **nu pot înlocui** gândirea analitică a inginerului software. Pentru a construi software fiabil, este absolut necesară aplicarea tehnicilor riguroase de testare structurală și funcțională.
 
 ## Referințe Bibliografice
 
