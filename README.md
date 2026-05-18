@@ -57,7 +57,7 @@ Am urmărit codul pe mai multe niveluri:
 ### 3. Mutation testing
 Am folosit PITest pentru a vedea dacă testele detectează modificări mici și greșite din cod.
 
-## Graful de control
+## Transformarea programului intr-un graf orientat
 
 ![Graf CFG calculateGrade](image/graf.png)
 
