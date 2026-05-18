@@ -48,8 +48,6 @@ Funcția pe care am testat-o se numește `calculateGrade(int score, int bonus, b
 
 ## Testare Funcțională (Black-Box)
 
-Această etapă de testare a fost concepută fără a avea acces la codul sursă, folosindu-ne strict de specificațiile aplicației.
-
 ### 1. Partiționarea în Clase de Echivalență (Equivalence Partitioning)
 
 Am împărțit domeniul de intrare în clase valide și invalide, reducând numărul de teste necesare prin alegerea unui singur reprezentant din fiecare clasă.
