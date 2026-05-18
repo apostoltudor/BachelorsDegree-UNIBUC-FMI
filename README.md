@@ -4,7 +4,6 @@
 
 - [Despre proiect](#despre-proiect)
 - [Mediu de lucru](#mediu-de-lucru)
-- [Logica aplicației](#logica-aplicației)
 - [Testare Funcțională (Black-Box)](#testare-funcțională-black-box)
 - [Testare Structurală (White-Box)](#testare-structurală-white-box)
 - [Mutation Testing](#mutation-testing)
@@ -12,10 +11,6 @@
 - [Video, Raport AI și Bibliografie](#video-raport-ai-și-bibliografie)
 
 ## Despre proiect
-
-Acest proiect reprezintă tema T3 pentru materia de testare unitară. Obiectivul principal a fost validarea unei funcții care transformă un punctaj (score), un bonus și o activitate extra (extraCredit) într-o notă finală (calificativ de la F la A+).
-
-### Funcția Testată: `calculateGrade()`
 
 Funcția pe care am testat-o se numește `calculateGrade(int score, int bonus, boolean extraCredit)` și calculează calificativul (nota finală) al unui student pe baza următoarelor criterii:
 
@@ -35,11 +30,6 @@ Funcția pe care am testat-o se numește `calculateGrade(int score, int bonus, b
    - **D (Admis)**: total ≥ 60
    - **F (Picată)**: total < 60
 
-Ne-am asigurat prin teste că logica, deciziile, buclele și rezultatele returnate sunt 100% corecte și logice. Am analizat proiectul folosind:
-
-- **Testarea Funcțională (Black-Box Testing)**: aplicând tehnici strict pe baza specificațiilor.
-- **Testarea Structurală (White-Box Testing)**: ghidându-ne după codul sursă și structura internă.
-- **Mutation Testing**: evaluând barierele noastre de teste la defecte injectate artificial.
 
 ## Mediu de lucru
 
@@ -55,18 +45,6 @@ Ne-am asigurat prin teste că logica, deciziile, buclele și rezultatele returna
 
 - MacBook Air M2
 - macOS Tahoe 26.0.1
-
-## Logica aplicației
-
-Metoda principală este `calculateGrade(int score, int bonus, boolean extraCredit)`.
-Algoritmul are următorii pași logici:
-
-1. Validează parametrul de intrare `score`.
-2. Adaugă `bonus` și un spor fix (dacă `extraCredit` este adevărat).
-3. Plafonează totalul la un maxim admis.
-4. Iterează printr-o listă de praguri pentru a determina și returna nota corespunzătoare, incluzând condiții speciale pentru nota maximă (A+).
-
----
 
 ## Testare Funcțională (Black-Box)
 
