@@ -1,1 +1,0 @@
-find / -type f -name 'abc*' 2>/dev/null
