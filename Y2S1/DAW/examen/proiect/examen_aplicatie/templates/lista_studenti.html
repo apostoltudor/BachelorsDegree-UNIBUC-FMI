@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Studenti</title>
+</head>
+<body>
+    <h1>Lista Studenti</h1>
+    <ul>
+    {% for student in studenti %}
+        <li><a href="{% url 'cursuri_student' student.id %}">{{ student.nume }} {{ student.prenume }} {{ student.email }} {{ student.anul_inscrierii }}</a></li>
+    {% endfor %}
+    </ul>
+    <p><a href="{% url 'adauga_curs' %}">Adauga curs nou</a></p>  <!-- ex 7 -->
+</body>
+</html>
+
+
+<!-- ex 5 -->

@@ -1,0 +1,183 @@
+Toate notațiile folosesc exclusiv caractere text și Unicode universale (`⊕` pentru XOR, `||` pentru concatenare, `←` pentru atribuire, `∈` pentru apartenență, `≥` pentru mai mare sau egal, `≠` pentru diferit). **text** e ingrosat ; `text` e cu fundal
+
+---
+
+### 1. Principiul lui Kerckhoffs
+
+#### Explicații și Informații Complete
+
+Principiul lui Kerckhoffs reprezintă pilonul fundamental al criptografiei moderne și stipulează că securitatea unui sistem de criptare trebuie să depindă în întregime de secretul cheii de criptare, și nu de secretul algoritmului utilizat. Cu alte cuvinte, se presupune întotdeauna că adversarul (atacatorul) cunoaște în detaliu designul matematic al algoritmilor de generare, criptare și decriptare, singura componentă necunoscută fiind cheia secretă `k`.
+
+Acest principiu se opune conceptului falimentar de "securitate prin obscuritate" (hiding the algorithm). Motivele practice și teoretice pentru care designul algoritmilor trebuie să fie public sunt:
+
+1. **Propagarea erorilor și vulnerabilităților:** Este mult mai ușor să schimbi o cheie compromisă (o secvență de biți) decât să înlocuiești un algoritm întreg implementat în milioane de dispozitive hardware sau aplicații software.
+2. **Ingineria inversă (Reverse Engineering):** În practică, un atacator poate dezasambla codul binar al aplicației sau analiza circuitele unui dispozitiv pentru a reconstitui algoritmul exact (așa cum s-a întâmplat istoric cu cifrurile sistemului GSM A5/1 și A5/2).
+3. **Validarea prin comunitate:** Un algoritm public este supus unui proces riguros de criptanaliză globală de către cercetători din întreaga lume. Dacă rezistă ani la rând atacurilor publice (cum este cazul AES), sistemul capătă o garanție ridicată de securitate computațională.
+
+#### Situații specifice și limitări
+
+* **Analiza de scripturi și malware (Vulnerabilitate practică):** În sistemele reale, dezvoltatorii ignoră adesea acest principiu, ascunzând chei de criptare direct în codul sursă (hardcoded keys) sau bazându-se pe scripturi obfuscate. Prin analiză statică (folosind editoare hex precum HxD sau utilitare de tip Pestudio) și analiză dinamică, un atacator poate extrage cu ușurință aceste secrete.
+* **Sisteme militare/proprietare:** Anumite organizații folosesc încă algoritmi secreți, însă standardele internaționale (AES, RSA, SHA-256) sunt complet publice și validate exact pe baza principiului lui Kerckhoffs.
+
+#### Exerciții din Modele/Seminare/Examene
+
+**Seminar 1, Exercițiul 1 (c)**
+
+* **Cerința completă:** Adevărat sau Fals? Algoritmul de criptare ar trebui să fie ascuns lui Eve / Oscar.
+* **Rezolvare/Răspuns:** FALS. Conform Principiului lui Kerckhoffs, algoritmul de criptare trebuie considerat întotdeauna public și cunoscut de către adversar (Eve/Oscar). Singurul element care trebuie să rămână complet secret este cheia de criptare. Dacă securitatea unui sistem depinde de secretul algoritmului, sistemul este considerat inerent nesigur.
+
+**Examen 2023, Problema 2 (Punctul 1 - corelație)**
+
+* **Cerința completă:** Compania folosește sistemul de criptare AES pentru stocarea fișierelor unde cheia este generată cu un PRNG cunoscut care primește ca seed ziua curentă și numele companiei. Comentați securitatea.
+* **Rezolvare/Răspuns:** Deși algoritmul AES este public și sigur (respectând Kerckhoffs), securitatea este complet compromisă deoarece spațiul cheilor a fost redus drastic. Atacatorul cunoaște algoritmul public de generare (PRNG-ul) și poate calcula cu ușurință seed-ul (numele companiei este public, iar numărul de zile posibile dintr-un an este extrem de mic, doar 365). Atacatorul va rula algoritmul public pe cele 365 de seed-uri posibile pentru a genera cheia corectă. Aceasta demonstrează că publicarea algoritmului este sigură *doar dacă* cheia provine dintr-un spațiu masiv și este aleasă uniform aleator.
+
+---
+
+### 2. Sisteme de criptare simetrice ("Simetric")
+
+#### Explicații și Informații Complete
+
+Un sistem de criptare simetric (sau cu cheie secretă) este caracterizat prin faptul că ambele părți legitime (expeditorul Alice și destinatarul Bob) partajează în avans o singură cheie secretă `k`, utilizată atât pentru procesul de criptare, cât și pentru cel de decriptare.
+
+Formal, un sistem de criptare simetric definit peste spațiile `(K, M, C)` (unde `K` este spațiul cheilor, `M` spațiul textelor clare și `C` spațiul textelor criptate) este un triplet de algoritmi care rulează în timp polinomial `(Gen, Enc, Dec)`:
+
+1. `Gen(1^n)`: Algoritm probabilistic de generare a cheii. Primește parametrul de securitate `n` (reprezentat în baza 1 și indicând lungimea cheii, ex: 128 sau 256 biți) și întoarce o cheie `k ∈ K` aleasă uniform aleator.
+2. `Enc`: Algoritm de criptare (poate fi probabilistic sau bazat de un vector de inițializare/counter). Primește cheia `k` și un mesaj `m ∈ M` și întoarce textul criptat `c ← Enc_k(m)`.
+3. `Dec`: Algoritm determinist de decriptare. Primește cheia `k` și textul criptat `c ∈ C` și întoarce textul clar `m ∈ M` sau un simbol de eroare `⊥` (dacă textul criptat nu este valid).
+
+**Proprietatea de corectitudine (Correctness):** Pentru orice cheie `k` generată de `Gen(1^n)` și pentru orice mesaj `m ∈ M`, algoritmul trebuie să satisfacă ecuația: `Dec_k(Enc_k(m)) = m`.
+
+**Niveluri de securitate computațională:**
+
+* **Securitate la interceptare simplă (EAV - Eavesdropper):** Adversarul este complet pasiv; el poate doar să intercepteze un text criptat aflat pe canalul de comunicație și nu poate distinge care dintre două mesaje alese de el (`m0`, `m1`) a fost criptat.
+* **Securitate CPA (Chosen-Plaintext Attack):** Adversarul este mai puternic; el are acces la un oracol de criptare `Enc_k(·)` pe care îl poate interoga adaptiv pentru a obține criptarea oricăror mesaje dorește. Criptarea simetrică trebuie să fie obligatoriu *probabilistică* sau *bazată pe stare/nonce* pentru a fi CPA-sigură (dacă ar fi deterministă, atacatorul ar interoga oracolul cu `m0`, ar vedea rezultatul și l-ar compara cu textul criptat primit în cadrul experimentului, ghicind cu probabilitate 1).
+* **Securitate CCA (Chosen-Ciphertext Attack):** Cel mai puternic nivel în criptografia simetrică. Atacatorul are acces atât la oracolul de criptare, cât și la un oracol de decriptare `Dec_k(·)`, cu restricția că nu poate trimite direct textul criptat provocare spre decriptare.
+
+#### Situații specifice și limitări
+
+* **Problema distribuirii cheilor:** Într-o rețea cu `N` utilizatori unde fiecare pereche dorește să comunice securizat, sunt necesare în total `N * (N - 1) / 2` chei secrete distincte. Distribuirea lor în siguranță pe un canal public este imposibilă fără criptografie asimetrică.
+* **Lipsa non-repudierii:** Deoarece ambele părți (Alice și Bob) dețin exact aceeași cheie `k`, Bob nu poate demonstra unei terțe părți (unui judecător) că un anumit mesaj a fost criptat sau semnat exclusiv de Alice, deoarece și el deținea capabilitatea tehnică de a genera acel text criptat.
+
+#### Exerciții din Modele/Seminare/Examene
+
+**Seminar 1, Exercițiul 3 (a)**
+
+* **Cerința completă:** Se consideră o cheie de criptare pe 128 biți / 256 biți. Câte chei posibile distincte există?
+* **Rezolvare/Răspuns:** O cheie reprezentată pe `n` biți poate lua orice valoare binară de lungime `n`. Prin urmare, spațiul total al cheilor distincte este:
+* Pentru 128 biți: `2^128` chei posibile.
+* Pentru 256 biți: `2^256` chei posibile.
+
+
+
+**Examen 2025, Problema 2**
+
+* **Cerința completă:** Fie `E` un sistem de criptare simetric de tip bloc cu lungimea blocului de 64 biți. Cheile sunt secvențe binare pe 64 biți. Sistemul se folosește în modul CTR, cu mențiunea că valoarea counter-ului pornește de la 0 (`ctr0 = 0`) și ia numai valori pare (`ctri = ctri-1 + 2`). (a) Considerând cheile alese uniform aleator din spațiul cheilor, câte chei posibile există? (b) Care este lungimea în biți a valorii counter?
+* **Rezolvare/Răspuns:** - **(a)** Lungimea cheii este specificată direct ca fiind de 64 de biți. Deoarece cheile sunt alese din spațiul complet al cheilor, numărul total de chei posibile distincte este `2^64`.
+* **(b)** Deoarece este un cifru de bloc standard `E` aplicat în mod de operare CTR, dimensiunea intrării în funcția de bloc (deci dimensiunea counter-ului `ctr`) trebuie să fie egală cu dimensiunea blocului sistemului, adică **64 de biți**. Faptul că valorile cresc din 2 în 2 doar limitează numărul de blocuri ce pot fi criptate în siguranță cu o singură cheie înainte ca valorile counter-ului să se repete (se înjumătățește perioada), dar lungimea fizică a registrului de counter rămâne de 64 de biți pentru a se potrivi ca input în algoritmul bloc.
+
+
+
+---
+
+### 3. Criptarea asimetrică (cu cheie publică)
+
+#### Explicații și Informații Complete
+
+Sistemele de criptare asimetrice utilizează o pereche de chei distincte din punct de vedere matematic, dar legate structural între ele: o **cheie publică (`pk` - public key)** folosită pentru criptare (cunoscută de toată lumea) și o **cheie privată (`sk` - secret key)** păstrată în secret absolut de către destinatar și folosită pentru decriptare.
+
+Formal, un sistem asimetric este format dintr-un triplet de algoritmi textuali `(Gen, Enc, Dec)`:
+
+1. `Gen(1^n)`: Algoritm probabilistic care primește parametrul de securitate `n` și generează perechea de chei `(pk, sk)`.
+2. `Enc`: Algoritm de criptare (adesea probabilistic). Primește cheia publică `pk` și mesajul `m`, calculând `c ← Enc_pk(m)`.
+3. `Dec`: Algoritm determinist de decriptare. Primește cheia privată `sk` și textul criptat `c`, întorcând mesajul clar `m` sau eroarea `⊥`.
+
+**Corectitudine:** `Dec_sk(Enc_pk(m)) = m`.
+
+**Diferența majoră de securitate la nivel teoretic:** În modelul asimetric, un adversar primește în mod automat cheia publică `pk` în cadrul experimentului de securitate. Aceasta înseamnă că atacatorul are automat acces gratuit la un oracol de criptare, putând genera textul criptat pentru orice mesaj dorește. Prin urmare:
+
+* **Securitatea la interceptare simplă (EAV) coincide cu securitatea CPA.**
+* **Orice schemă deterministă (cum este Textbook RSA) este complet nesigură în modelul public/asimetric.**
+
+**Sisteme de securitate conexe:**
+
+* **Textbook RSA:** `pk = (N, e)`, `sk = d`, unde `N = p * q`. Criptarea este `c = m^e mod N` și decriptarea este `m = c^d mod N`. Este nesigur deoarece este determinist și vulnerabil la atacuri homomorfice (`(m1*m2)^e = m1^e * m2^e mod N`).
+* **Padded RSA (PKCS #1 v1.5):** Introduce un bloc aleator de padding `r` pentru a transforma criptarea într-una probabilistică: `c = (0x00 || 0x02 || r || 0x00 || m)^e mod N`. Este CPA-sigur în practică, dar total vulnerabil CCA (Atacul Bleichenbacher prin oracol de padding).
+* **RSA-OAEP:** Standard modern demonstrat sigur împotriva atacurilor CCA, utilizând două funcții de mascare (bazate pe hash-uri).
+
+#### Situații specifice și limitări
+
+* **Eficiență scăzută:** Calculele asimetrice implică operații cu numere extrem de mari (ridicări la putere modulo un număr de 2048 sau 4096 biți), fiind de 100 până la 1000 de ori mai lente decât criptarea simetrică (AES). Soluția practică este **Criptarea Hibridă**: cheia publică asimetrică este folosită doar pentru a cripta o cheie simetrică de sesiune (`K_semnal`), iar mesajul lung este criptat eficient cu AES folosind `K_semnal`.
+* **Vulnerabilitate post-cuantică:** Algoritmul cuantic al lui Shor (Curs 9.2, Curs 10.1) rezolvă în timp polinomial atât problema factorizării întregilor (spargerea RSA), cât și problema logaritmului discret (spargerea ElGamal și Diffie-Hellman). De aceea, se face tranziția către sisteme post-cuantice bazate pe probleme precum **LWE (Learning With Errors)**.
+
+#### Exerciții din Modele/Seminare/Examene
+
+**Seminar 5, Exercițiul 1**
+
+* **Cerința completă:** Se consideră următorii factori RSA: `p = 41` și `q = 17`. Care dintre `e1 = 32`, `e2 = 49` și `e3 = 5` este un coeficient de criptare valid? Calculați coeficientul de decriptare `d` corespunzător lui `e` valid (folosind algoritmul lui Euclid extins).
+* **Rezolvare/Răspuns:**
+1. Calculăm modulul RSA: `N = p * q = 41 * 17 = 697`.
+2. Calculăm funcția Euler: `phi(N) = (p - 1) * (q - 1) = 40 * 16 = 640`.
+3. Condiția pentru un exponent de criptare `e` valid este ca acesta să fie prim de structură cu `phi(N)`, adică `cmmdc(e, phi(N)) = 1`, iar `1 < e < phi(N)`.
+* Pentru `e1 = 32`: `cmmdc(32, 640) = 32 ≠ 1` (Invalid, ambele sunt pare).
+* Pentru `e2 = 49`: `640 = 13 * 49 + 3`; `49 = 16 * 3 + 1` => `cmmdc(49, 640) = 1` (**Valid**).
+* Pentru `e3 = 5`: `640` se divide la `5` (deoarece se termină în 0), deci `cmmdc(5, 640) = 5 ≠ 1` (Invalid).
+
+
+4. Calculăm cheia privată `d` pentru `e = 49`, unde `d = e^(-1) mod phi(N)`, adică `49 * d ≡ 1 mod 640`. Aplicăm algoritmul lui Euclid extins:
+* `640 = 13 * 49 + 3` => `3 = 640 - 13 * 49`
+* `49 = 16 * 3 + 1` => `1 = 49 - 16 * 3`
+Substituim valoarea lui 3 în ultima ecuație:
+* `1 = 49 - 16 * (640 - 13 * 49)`
+* `1 = 49 - 16 * 640 + 208 * 49`
+* `1 = 209 * 49 - 16 * 640`
+Trecând în `mod 640`, obținem: `49 * 209 ≡ 1 mod 640`.
+Prin urmare, coeficientul de decriptare valid este **`d = 209`**.
+
+
+
+
+
+**Examen 2023, Problema 2 (Punctul 2 - corelație)**
+
+* **Cerința completă:** Site-ul web al companiei este securizat folosind certificate digitale cu modulul RSA `N` pe 128 biți. Comentați vulnerabilitatea.
+* **Rezolvare/Răspuns:** Sistemul este total nesigur. Un modul RSA `N` de doar 128 de biți este extrem de mic și poate fi factorizat în factorii primi `p` și `q` în câteva fracțiuni de secundă pe un calculator desktop comercial prin metode clasice (GNFS - General Number Field Sieve). Odată aflați `p` și `q`, atacatorul calculează `phi(N) = (p-1)(q-1)` și determină cheia privată de decriptare `d = e^(-1) mod phi(N)`. Pentru o securitate simetrică echivalentă de bază, modulul RSA trebuie să aibă o lungime de minimum **2048 de biți**.
+
+---
+
+### 4. Perfect sigur (Securitatea perfectă)
+
+#### Explicații și Informații Complete
+
+Securitatea perfectă (introdusă de Claude Shannon) reprezintă cel mai puternic nivel de securitate matematică din criptografie. Spre deosebire de securitatea computațională (care presupune că atacatorul are putere de calcul finită și timp limitat), o schemă perfect sigură garantează confidențialitatea informației în fața unui adversar **cu putere de calcul infinită și timp nelimitat**. Textul criptat interceptat nu oferă nicio informație suplimentară despre textul clar original.
+
+Există două definiții formale echivalente (studiate la Curs 2 și Seminar 2):
+
+**Definiția 1 (Bazată pe distribuții probabilistice):** O schemă de criptare definită peste spațiul mesajelor `M` este perfect sigură dacă pentru orice distribuție de probabilitate apriorică peste `M`, pentru orice mesaj `m ∈ M` și pentru orice text criptat `c ∈ C` pentru care probabilitatea `Pr[C = c] > 0`, avem:
+`Pr[M = m | C = c] = Pr[M = m]`
+*Interpretare:* Probabilitatea aposteriorică ca mesajul trimis să fie `m`, condiționată de interceptarea textului criptat `c`, este identică cu probabilitatea apriorică ca mesajul să fie `m` (înainte de interceptare). Atacatorul nu avansează deloc în analiză.
+
+**Definiția 2 (Bazată sursă pe indistinctibilitate adversarială):** O schemă de criptare este perfect sigură dacă pentru orice două mesaje din spațiul textelor clare `m0, m1 ∈ M` și pentru orice text criptat `c ∈ C`:
+`Pr[Enc_k(m0) = c] = Pr[Enc_k(m1) = c]`
+Unde probabilitatea este luată peste alegerea uniform aleatoare a cheii `k` din spațiul `K`.
+
+**Teorema lui Shannon (Limitările Criptării Perfecte):** Pentru ca un sistem să asigure securitate perfectă, spațiul cheilor `K` trebuie să fie cel puțin la fel de mare ca spațiul mesajelor `M` (`|K| ≥ |M|`). Dacă mesajele sunt reprezentate ca șiruri binare de lungime fixă, lungimea cheii trebuie să fie cel puțin egală cu lungimea mesajului. Singurul sistem practic care atinge această barieră este **One-Time Pad (OTP)**, unde `c = m ⊕ k`.
+
+#### Situații specifice și limitări
+
+1. **Refolosirea cheii (Atacul Two-Time Pad):** Dacă aceeași cheie `k` este folosită pentru a cripta două mesaje distincte `m1` și `m2`, sistemul își pierde instantaneu securitatea perfectă. Atacatorul interceptează `c1 = m1 ⊕ k` și `c2 = m2 ⊕ k` și calculează `c1 ⊕ c2 = (m1 ⊕ k) ⊕ (m2 ⊕ k) = m1 ⊕ m2`. XOR-ul textelor clare elimină cheia și permite decompunerea textelor prin analiză de frecvență a caracterelor sau limbajului (Lab 3).
+2. **Lungimea cheii:** Deoarece cheia trebuie să fie la fel de lungă ca mesajul și generată uniform aleator (folosind un TRNG - True Random Number Generator), transmiterea cheii pe un canal securizat devine la fel de dificilă ca transmiterea mesajului în sine, făcând OTP impracticabil pentru rețelele globale de date de mari dimensiuni.
+
+#### Exerciții din Modele/Seminare/Examene
+
+**Seminar 2, Exercițiul 2**
+
+* **Cerința completă:** Pentru o cheie scurtă de 4 caractere ASCII (32 biți), pare că un atac prin forță brută (căutare exhaustivă a cheii) este posibil asupra OTP. Este adevărat? Justificați.
+* **Rezolvare/Răspuns:** **NU, este FALS.** Atacul prin forță brută (testarea tuturor celor `2^32` chei posibile) este executabil computațional în câteva milisecunde, însă el este complet inutil din cauza proprietății de **securitate perfectă** a OTP. Dacă atacatorul deține un text criptat `c` de 32 de biți și încearcă toate cele `2^32` chei posibile, el va obține la decriptare **absolut toate textele clare posibile de 4 caractere** (ex: cuvintele "LUPU", "MERE", "CASA", "CONS" etc.), fiecare text apărând exact o singură dată, pentru o anumită cheie unică. Deoarece toate textele clare posibile apar cu probabilitate egală, atacatorul nu are niciun criteriu matematic sau semantic pentru a determina care dintre cuvintele rezultate a fost cel trimis cu adevărat de Alice. Astfel, textul criptat nu trădează nicio informație, demonstrând că OTP rezistă forței brute chiar și cu chei scurte, cu condiția ca textul clar să aibă exact lungimea cheii și cheia să nu fi fost refolosită.
+
+**Curs 2 (Demonstrație de eșec a securității perfecte)**
+
+* **Cerința completă:** Considerăm o schemă definită peste `M = {00, 01, 10, 11}` și `K = {k1, k2, k3, k4}` unde pentru un anumit text criptat `c = 01`, probabilitățile sunt: `Pr[Enc_k(00) = 01] = 1/2` și `Pr[Enc_k(01) = 01] = 0`. Este schema perfect sigură?
+* **Rezolvare/Răspuns:** **NU.** Aplicăm direct a doua definiție a securității perfecte (indistinctibilitatea). Pentru ca schema să fie perfect sigură, probabilitatea de a obține textul criptat `c = 01` ar trebui să fie complet identică pentru oricare două mesaje alese din spațiul `M`. În acest caz, alegem `m0 = 00` și `m1 = 01`. Observăm că:
+`Pr[Enc_k(00) = 01] = 1/2`
+`Pr[Enc_k(01) = 01] = 0`
+Deoarece `1/2 ≠ 0`, proprietatea de indistinctibilitate este încălcată. Atacatorul, la interceptarea textului criptat `01`, va ști sigur că mesajul clar trimis *nu* a fost `01` (deoarece probabilitatea este 0) și că există o șansă mare să fi fost `00`. Schema nu este perfect sigură.

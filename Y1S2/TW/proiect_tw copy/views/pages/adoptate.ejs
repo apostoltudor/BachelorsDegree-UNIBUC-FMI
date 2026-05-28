@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    
+    <%- include("/Users/tudorapostol/Documents/Facultate/Y1S2/Tehnici_Web/proiect_tw copy/views/partials/head.ejs") %>
+
+
+</head>
+<body>
+
+    <nav>
+        <div class="dropdown">
+            <button><b>Meniu</b></button>
+            <div class="content">
+                <a href="/home">Acasă</a>
+                <a href="/disponibile">Pisici spre adopție</a>
+                <a href="/adoptate">Pisici adoptate</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <%- include("/Users/tudorapostol/Documents/Facultate/Y1S2/Tehnici_Web/proiect_tw copy/views/partials/header.ejs") %>
+    </header>
+
+    <hr id="bara_sus">
+    <hr id="bara_sus">
+    
+    <h2>Pisici adoptate</h2>
+
+    <main>
+        <section>
+
+            <div class="rows">  
+                <h3 class="pisiciadoptate">Fiona</h3>
+                <img src="/resources/images/fiona0.jpeg" alt="fiona" class="adoptate">
+                <img src="/resources/images/fiona1.jpeg" alt="fiona" class="adoptate">
+                <img src="/resources/images/fiona2.jpeg" alt="fiona" class="adoptate">
+                <img src="/resources/images/fiona3.jpeg" alt="fiona" class="adoptate">
+            </div>
+
+
+            
+
+            <br>
+            <div class="rows">
+                <h3 class="pisiciadoptate">Lola</h3>
+                <img src="/resources/images/lola0.jpeg" alt="lola" class="adoptate">
+                <img src="/resources/images/lola1.jpeg" alt="lola" class="adoptate">
+                <img src="/resources/images/lola2.jpeg" alt="lola" class="adoptate">
+                <img src="/resources/images/lola3.jpeg" alt="lola" class="adoptate">
+            </div>
+
+
+
+
+            <br>
+            <div class="rows">
+                <h3 class="pisiciadoptate">Luna</h3>
+                <img src="/resources/images/luna0.jpeg" alt="luna" class="adoptate">
+                <img src="/resources/images/luna1.jpeg" alt="luna" class="adoptate">
+                <img src="/resources/images/luna2.jpeg" alt="luna" class="adoptate">
+                <img src="/resources/images/luna3.jpeg" alt="luna" class="adoptate">
+            </div>
+
+
+
+
+        </section>
+    </main>
+
+    <footer>
+
+        <%- include("/Users/tudorapostol/Documents/Facultate/Y1S2/Tehnici_Web/proiect_tw copy/views/partials/footer.ejs") %>
+
+
+    </footer>
+
+    <script src="/resources/proiect.js"></script>
+
+</body>
+</html>

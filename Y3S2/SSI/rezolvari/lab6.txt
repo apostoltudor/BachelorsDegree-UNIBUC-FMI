@@ -1,0 +1,29 @@
+1.
+prg - pseudo random generator
+    - algoritm determinist ce primeste un seed (sir scurt de biti) si genereaza un sir de biti mai lung
+    - reprezentat de o functie care respecta: 
+    - 1. expansiunea (output > input) 
+    - 2. eficienta (sa calc. rapid sirul)
+    - 3. securitatea (un atacator sa nu poata distinge intre output si un sir de biti aleator)
+
+candidate 1:
+	seed xor seed = 0 -> seed, 0, 0, 0... -> predictibila si nu va fi un sir aleator
+candidate 2: 
+	problema este ca formula se poate deduce foarte usor daca un atacator vede doar doua numere si sa deduca restul sirului
+candidate 3: 
+	aici nu exista expansiune. doar se aplica o singura operatie (/4)
+
+3.
+CVE (Common Vulnerabilities and Exposures) - anumite vulnerabilitati
+CWE (Common Weakness Enumeration) - tipuri de greseli
+CAPEC (Common Attack Pattern Enumeration and Classification) - metode de atac
+
+-problema este ca sunt predictibile, la prima e hardcodat seed-ul si la a 2-a se bazeaza pe userID pentru seed
+-CWE-336 same seed in pseudo-random number generator
+-va fi vulnerabila la un atac de tip brute force - CWE-339 small seed space in PRNG
+-se mentioneaza faptul ca dependenta sau necesitatea seed values cu o implementare salaba a generatorului creeaza un spatiu mai mic de analizat si face deductia valorilor secrete posibile pentru atacator
+-CWE-335: Incorrect Usage of Seeds in Pseudo-Random Number Generator ; CWE-337: Predictable Seed in Pseudo-Random Number Generator ; CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator
+da, exista CVE-uri corespunzatoare in mii de aplicatii, de multe ori fiind responsabile pentru bresele de generare de tokenuri sau chei compromise
+-am identificat 7
+
+

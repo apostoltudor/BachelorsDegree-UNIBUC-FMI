@@ -1,0 +1,57 @@
+#parinte {
+    height: 500px;
+    width: 50%;
+    border: 5px solid green;
+    padding: 7px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    gap: 10px;
+}
+
+#parinte > div {
+    border: 1px solid black;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 600px) and (min-width: 300px) {
+    #parinte {
+        display: flex;
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+    }
+    #parinte > div {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+.div4, .div5 {
+    width: 30%; 
+    height: 25%;
+    background-color: purple;
+}
+
+.div3 {
+    width: 60%;
+    height: 25%;
+    background-color: red;
+}
+
+.div1, .div6 {
+    width: 100%;
+    height: 10%;
+    background-color: orange;
+}
+
+.div2 {
+    width: 30%; 
+    height: 50%; 
+    background-color: pink;
+}
+

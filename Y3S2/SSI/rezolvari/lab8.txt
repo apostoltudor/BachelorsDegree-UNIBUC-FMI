@@ -1,0 +1,47 @@
+1.
+a)
+ adevarat - pentru ca odata ce ai facut prajitura, nu mai poti obtine din ea ingredientele
+
+b)
+ fals - MD5 este compromisa criptografic deoarece e demonstrat ca se pot genera coliziuni (doua mesaje diferite genereaza acelasi hash)
+c)
+ adevarat - acest lucru e si in nume SHA256
+d)
+ adevarat - am testat in encryptor
+e)
+ fals - a cripta inseamna si posibilitate de decriptare, iar functia hash nu permite asta
+f)
+ fals - pentru stocarea parolelor se folosesc multi algoritmi proiectati intentionat sa fie lenti pentru a preveni atacurile brute-force sau dictionary attack (parole predefinite)
+g)
+ fals - corespunde parola123, o parola extrem de comuna si slaba. din moment ce nu foloseste un salt(valoare aleatoare adaugata parolei inainte de hash-uire), hash-ul poate fi spart instant
+
+3.
+exemplul 1:
+	-se foloseste criptare in loc de hash; proces reversibil, poate afla un atacator cheia si pa pa
+	-cheie hardcodata; daca se afla cheia pa pa
+	-parole stocate asa cum sunt; vedem la user.getPassword
+	-endpoint-ul returneaza lista tuturor parolelor criptate
+exemplul 2:
+	-hash pe username; nu are rost si mai mult incurca
+	-vulnerabilitate de tip Dos (denial of service); pentru a verifica un username codul parcurge toata lista si daca baza de date are multe coduri serverul are sanse f mari sa pice
+exemplul 3:
+	-utilizeaza sha256 care este un algoritm prea rapid
+	-nu exista salt-uri; parolele sunt hashuite direct
+exemplul 4:
+	-salt-ul este setat; ar trebui sa fie mereu generat aleator
+exemplul 5:
+	-algoritm compromis; MD5
+	-lipseste salt
+	-codare incorecta; se foloseste ASCIIEncoding.ASCII.GetBytes(parola), daca cineva foloseste in parola caractere speciale sau emojiuri codarea va da eroare sau se vor corupe caracterele sau va genera un hash gresit
+
+2.
+
+
+
+
+
+
+
+
+
+

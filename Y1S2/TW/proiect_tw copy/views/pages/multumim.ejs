@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    
+    <%- include("/Users/tudorapostol/Documents/Facultate/Y1S2/Tehnici_Web/proiect_tw copy/views/partials/head.ejs") %>
+
+
+</head>
+<body>
+
+    <nav>
+        <div class="dropdown">
+            <button><b>Meniu</b></button>
+            <div class="content">
+                <a href="/home">Acasă</a>
+                <a href="/disponibile">Pisici spre adopție</a>
+                <a href="/adoptate">Pisici adoptate</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <%- include("/Users/tudorapostol/Documents/Facultate/Y1S2/Tehnici_Web/proiect_tw copy/views/partials/header.ejs") %>
+    </header>
+    
+    <hr id="bara_sus">
+    <hr id="bara_sus">
+
+<br><br>
+    <main id="js_create">
+        
+
+        <div class="centered-container">
+
+                    <label for="recommendSelect">Ne-ați recomanda unui prieten?</label>
+        <select id="recommendSelect">
+            <option value="">Selectați</option>
+            <option value="da">Da</option>
+            <option value="nu">Nu</option>
+        </select>
+
+        </div>
+
+
+    </main>
+    
+
+    <footer>
+
+        <%- include("/Users/tudorapostol/Documents/Facultate/Y1S2/Tehnici_Web/proiect_tw copy/views/partials/footer.ejs") %>
+
+
+    </footer>
+
+    <script src="/resources/proiect.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+2.
+aes - advanced ecryption standard - algoritm de criptare
+    - simetric - foloseste aceeasi cheie pentru criptare si decriptare
+    - block cipher - nu cripteaza datele bit cu bit ci le grupeaza in blocuri de dimensiune fixa (128 biti)
+    - dimensiunea cheii - 128, 192 sau 256 biti. in funcție de mărimea cheii, algoritmul aplică mai multe „runde” de transformare matematică a datelor (10, 12, respectiv 14 runde) pentru a le amesteca ireversibil
+
+a)
+ 3 secvente cifrate indentice. cheia = 16 bytes ; data = 48 bytes
+
+b)
+ ecb - electronic cookbook; de la aes.mode-ecb; ca blocuri de text identice produc blocuri de text cifrate identice
+
+c)
+ nu, pentru ca nu ascunde tiparele datelor originale. dacă un mesaj are secțiuni care se repetă, aceste repetiții vor fi vizibile și în textul cifrat, permițând unui atacator să deducă structura și uneori chiar conținutul informației criptate
+
+d)
+ dimensiunea cheii este 16 bytes; dimensiunea blocului este 48 bytes
+
+e)
+ trebuie sa folosim un mecanism de padding ca sa ajundem de la 4 bytes de la 'test' la 16 (cati are cheia)
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+
+key = b'O cheie oarecare'
+data = b'test'
+
+cipher = AES.new(key, AES.MODE_ECB)
+
+padded_data = pad(data, AES.block_size) 
+ciphertext = cipher.encrypt(padded_data)
+
+f)
+ cbc - cypher block chaining
+ rezultatul cifrarii fiecarui bloc depinde de blocul anterior. unde pentru primul bloc se foloseste un vector de initializare generat aleatoriu la fiecare cifrare
+
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+
+key = b'O cheie oarecare'
+data = b'testtesttesttesttesttesttesttesttesttesttesttest' 
+
+iv = get_random_bytes(16)
+
+cipher = AES.new(key, AES.MODE_CBC, iv)
+
+ciphertext = cipher.encrypt(data)

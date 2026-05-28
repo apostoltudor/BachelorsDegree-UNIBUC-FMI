@@ -1,0 +1,21 @@
+1.
+a)
+nu a aparut nicio eroare
+b)
+apare la sfarsit un bloc de date suspicios ce incepe cu literele MZ (hexa 4D 5A) care este semnatura standard pentru fisierele Portable Executable, ceea ce ar indica ca a fost lipit un executabil la finalul imaginii
+c)
+3 rezultate ca ar fi virus, doua din ele mentioneaza ca ar fi trojan
+d)
+asta este ca si cum eliminam calul troian si ramanem doar cu soldatii din interior si ar aparea aproate peste tot virus
+e)
+da. sunt obligatorii pentru rularea malware-ului, pentru ca malware-ul foloseste dynamic linking si se bazeaza pe ele
+f)
+da. mi-am dat seama de asta pentru ca sterge toate fisierele pdf si redenunmeste un director in gotHackedBye; un fisier de tip imagine ar trebui sa contina antetul specific formatului si datele pixelilor, nu semnatura MZ a unui Portable Executable; odata ce blocul corespunzator executabilului a fost decupat a generat mai multe alarme de virus pe virustotal
+
+2.
+
+-apare ca e parola gresita si pot introduce oricate caractere, nu doar 6 cat e declarat input
+
+-XXXXXXXXXXXXXX; 14 de X ca sa intre si pe pass si asa sa fie ambele egale
+
+-buffer overflow

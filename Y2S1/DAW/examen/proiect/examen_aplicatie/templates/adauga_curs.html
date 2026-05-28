@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adauga curs</title>
+</head>
+<body>
+    <h1>Adauga curs nou</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Adauga curs</button>
+    </form>
+    <p><a href="{% url 'lista_studenti' %}">Inapoi la lista studentilor</a></p>
+</body>
+</html>
+
+
+<!-- ex 7 -->  

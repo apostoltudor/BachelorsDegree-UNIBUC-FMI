@@ -1,0 +1,39 @@
+1.a
+e un script JS functional dar formulat folosind caractere ne-alfanumerice, iar in momentul executiei JS va evalua aceste simboluri si le va transforma in caractere normale si va executa comanda
+
+1.b
+din analiza statica ne dam seama ca sunt doar variabile precum $ _ si operatorii + ! ~ {} [] ceea ce arata ca ar fi vorba de un encoder
+
+1.c
+Facultatea de Matematica si Informatica
+Universitatea din Bucuresti
+https://www.youtube.com/watch?v=HIcSWuKMwOw
+
+1.d
+Yosuke Hasegawa a creat JJEncode
+
+2.a
+codul afiseaza niste mesaje in consola, apoi creeaza un fisier txt numit b.txt in care e scris mesajul "Acesta este mesajul secret din fisier :)" si apoi apeleaza o functie de sistem pentru a-l face hidden. mi-am dat seama de asta pentru ca am vazut in dictionarul de la final CreateTextFile, WriteLine si Attributes
+
+2.b
+nu este malware deoarece este inofensiv, dar are comportament de malware, mai exact de dropper pentru ca creeaza fisiere in sistem
+
+2.c
+Dean Edwards a creat Packer
+
+3.a
+este un dropper. ne dam seama dupa comenzile ActiveXObject. citeste sirul de caractere de la final, il decodeaza cu Msx12.DOMDocument din base64 in binar apoi il salveaza in %temp%
+
+3.b
+traducem textul lung din base64 si salvam rezultatul ca un executabil .exe si asa obtinem fisierul
+
+3.c
+da, acest fisier poate fi considerat malware deoarece face singur modificari fisierelor calculcatorului. are o activitate tipica de dropper
+
+3.d
+27/62 scor
+clar malware. virustotal a aratat ca este detectat de un numar destul de mare de motoare antivirus.
+
+3.e
+5/62 scor
+numarul de detectii a scazut deoarece obfuscarea a modificat structura statica, iar motoarele antivirus traditionale ce se bazeaza doar pe analiza statica si recunoastere de semanturi au fost pacalite, dar motoarele mai avansate ce se bazeaza pe euristici au reusit dat in continuare flag-uri

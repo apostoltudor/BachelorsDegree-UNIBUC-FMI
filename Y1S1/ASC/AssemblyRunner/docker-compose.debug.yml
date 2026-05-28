@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    image: x86-assembly-container:latest
+    container_name: assembly_environment
+    ports:
+      - "4444:4444"
+    volumes:
+      - .:/app
+    command: bash -c "cd /app && rm -f executable && gcc -g -x assembler -m32 ${PROGRAM_NAME} -o executable && gdbserver localhost:4444 executable && rm executable"

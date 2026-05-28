@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P4</title>
+    <link rel="stylesheet" href="p4.css">
+</head>
+<body>
+    <form id="sortForm">
+        <label for="wordsInput">Cuvinte:</label>
+        <input type="text" id="wordsInput" name="wordsInput" placeholder="Introdu cuvinte separate prin spațiu">
+        
+        <label for="sortOption">Sortează după:</label>
+        <select id="sortOption" name="sortOption">
+            <option value="alfabetic">Alfabetic</option>
+            <option value="lungime">Lungime</option>
+        </select>
+        
+        <button type="submit">Submit</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <script src="p4.js"></script>
+</body>
+</html>

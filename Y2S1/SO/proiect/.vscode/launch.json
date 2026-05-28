@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/tudorapostol/Documents/Facultate/Y2S1/Sisteme de Operare/proiect",
+      "program": "/Users/tudorapostol/Documents/Facultate/Y2S1/Sisteme de Operare/proiect/build/Debug/outDebug"
+    }
+  ]
+}

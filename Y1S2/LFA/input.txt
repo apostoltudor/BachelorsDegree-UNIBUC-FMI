@@ -1,0 +1,67 @@
+#al meu
+
+states = {'q0', 'q1', 'q2', 'q3'}
+input_alphabet = {'a', 'b', 'c'}
+stack_alphabet = {'$', 'A'}
+transition_function = {
+    ('q0', 'a', '$'): ('q1', 'A'),
+    ('q1', 'a', 'A'): ('q1', 'A'),
+    ('q1', 'b', 'A'): ('q2', 'pop'),
+    ('q2', 'b', 'A'): ('q2', 'pop'),
+    ('q2', 'c', '$'): ('q3', 'pop') #,
+    # ('q2', 'a', '$'): ('q2', 'A')
+}
+start_state = 'q0'
+accept_states = {'q3'}
+initial_stack_symbol = '$'
+
+#1
+
+states = {'q0', 'q1', 'qf'}
+input_alphabet = {'a', 'b'}
+stack_alphabet = {'Z', 'A'}
+transition_function = {
+    ('q0', 'a', 'Z'): ('q0', 'AZ'),
+    ('q0', 'a', 'A'): ('q0', 'AZ'),
+    ('q0', 'b', 'A'): ('q1', '%'),
+    ('q1', 'b', 'A'): ('q1', '%'),
+    ('q1', '', 'Z'): ('qf', '%')
+}
+start_state = 'q0'
+accept_states = {'qf'}
+initial_stack_symbol = 'Z'
+
+#2
+
+states = {'q0', 'q1', 'q2', 'q3'}
+input_alphabet = {'a', 'b', 'c'}
+stack_alphabet = {'$', 'A'}
+transition_function = {
+    ('q0', 'a', '$'): ('q1', 'A'),
+    ('q1', 'a', 'A'): ('q1', 'A'),
+    ('q1', 'b', 'A'): ('q2', 'pop'),
+    ('q2', 'b', 'A'): ('q2', 'pop'),
+    ('q2', 'c', '$'): ('q3', 'pop') #,
+    # ('q2', 'a', '$'): ('q2', 'A')
+}
+start_state = 'q0'
+accept_states = {'q3'}
+initial_stack_symbol = '$'
+
+
+#3
+
+states = {'q0', 'q1', 'q2', 'q3'}
+input_alphabet = {'a', 'b', 'c'}
+stack_alphabet = {'$', 'A'}
+transition_function = {
+    ('q0', 'a', '$'): ('q1', 'A'),
+    ('q1', 'a', 'A'): ('q1', 'A'),
+    ('q1', 'b', 'A'): ('q2', 'pop'),
+    ('q2', 'b', 'A'): ('q2', 'pop'),
+    ('q2', 'c', '$'): ('q3', 'pop') #,
+    # ('q2', 'a', '$'): ('q2', 'A')
+}
+start_state = 'q0'
+accept_states = {'q3'}
+initial_stack_symbol = '$'

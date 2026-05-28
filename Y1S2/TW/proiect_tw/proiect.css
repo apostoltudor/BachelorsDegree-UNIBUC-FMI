@@ -1,0 +1,474 @@
+/* 
+*{
+    overflow: auto;
+} */
+
+body{
+    background-color: #C1E1C1;
+    display: flow-root;
+}
+
+.dropdown{
+    display: inline-block;
+}
+.dropdown button{
+    width: 200px;
+    height: 47px;
+    background-color: #b1cbb1;
+    color: #5C4033;
+    padding: 10px 15px;
+    border: 2px seagreen solid;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: larger;
+}
+.dropdown a{
+    display: block;
+    color: black;
+    text-decoration: none;
+    padding: 10px 15px;
+}
+.dropdown .content{
+    background-color: #f6e6db;
+    position: absolute;
+    min-width: 100px;
+    box-shadow: 2px 2px 5px #6F4E37;
+    display: none;
+    text-align: center;
+}
+.dropdown:hover .content{
+    display: block;
+}
+
+/* medie query */
+
+.dropdown:hover button{    /*tranzitie cu proprietate */
+    background-color: #f6dfd0;
+    border-color: #6F4E37;
+}
+.dropdown a:hover{
+    background-color: #c4a189;
+}
+
+h1{
+    color: #5C4033;
+    font-family: "Oswald", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    text-align: center;
+    font-size: 356%;
+    margin-top: 4%;
+    margin-bottom: -1px;
+}
+
+#bara_sus{
+    margin-left: 40px;
+    margin-right: 40px;
+    height: 0.7px;
+    color: #5C4033;
+    background-color: #5C4033;
+}
+
+h2{
+    color: #5C4033;
+    font-family: "Oswald", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    text-align: center;
+    font-size: 260%;
+}
+
+#about{
+    font-size: x-large;
+    color: rgb(77, 77, 77);
+    margin: 70px;
+    border: 10px #f9f4f0 solid;
+    border-radius: 22px;
+    padding: 20px;
+}
+
+p{
+    color: rgb(77, 77, 77);
+    font-family: "lucida console", "courier new";
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+
+}
+
+.orar{
+    border: 5px solid #6F4E37;
+    background-color: #f6e6db;
+    min-height: 10%;
+    min-width: 90%;
+    align-content: center;
+    margin: auto;
+}
+
+
+tr{
+    color: rgb(77, 77, 77);
+    font-size: x-large;
+}
+
+td{
+    background-color: #f9f4f0;
+}
+
+th{
+    background-color: #f6dfd0;
+    min-width: 100px;
+}
+
+.adoptate{
+    box-sizing: border-box;
+    max-height: 200px;
+    margin: 5px;
+    border: 5px outset #96ae96;
+    border-radius: 5px;
+    text-align: center;
+}
+.rows{
+    display: flex;
+    background-color: #f6dfd0;
+    justify-content: center;
+    align-items: center;
+    border: #94ab94c7 8px outset;
+}
+.pisiciadoptate{
+    font-size: 3.69vw;
+    color: #5C4033;
+    margin-right: 80px;
+    float: left;
+    font-family: "Oswald", sans-serif;
+    font-optical-sizing: auto;
+    border-bottom: #5C4033;
+}
+
+
+footer{
+    margin-top: 6vh;
+    margin-left: 36%;
+    margin-right: 36%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+footer img{
+    max-height: 70px;
+    max-width: 70px;
+    width: 7vw;
+    height: auto;
+    margin-left: 10px;
+    border: 5px solid #f9f4f0;
+    border-radius: 54px;
+}
+
+
+
+#adoptie{
+    font-size: 198%;
+}
+
+.buton{
+    height: 1%;
+    background-color: #b1cbb1;
+    color: #5C4033;
+    padding: 10px 15px;
+    border: 5px seagreen solid;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 106%;
+}
+
+
+.gif{
+    background-color: #f6dfd0;
+    border: #94ab94c7 8px outset;
+    height: auto;
+    width: 15vw;
+    float: right;
+    display: flex; /* Folosește Flexbox pentru container */
+    justify-content: center; /* Centrează imaginea orizontal */
+    align-items: center; /* Centrează imaginea vertical */
+    max-width: 100%;
+    max-height: 100%;
+  
+
+
+
+    animation: twirl 5s infinite ease-in-out;
+}
+
+@keyframes twirl{
+    95%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Meniu dropdown */
+.dropdown button {
+    width: 13vw;
+    height: 5vh;
+    background-color: #b1cbb1;
+    color: #5C4033;
+    padding: 10px 15px;
+    border: 2px seagreen solid;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: larger;
+    object-fit: contain;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+
+.dropdown .content {
+    display: none;
+    position: absolute;
+    background-color: #f6e6db;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+
+}
+
+.dropdown:hover .content {
+    display: block;
+}
+
+/* Ajustarea și centrarea imaginilor */
+.adoptate {
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin: auto;
+}
+
+/* Asigurăm că toate imaginile au aceeași înălțime în chenar, fără a fi stretch-uite */
+
+.chenarpisica {
+    /* display: flex;   
+    justify-content: center;   
+    flex-wrap: wrap;  
+    gap: 10px; */
+
+    display: flex;             /* Activează Flexbox */
+    justify-content: center;   /* Centrează imaginile pe axa orizontală */
+    align-items: center;       /* Centrează imaginile pe axa verticală */
+    flex-wrap: wrap;           /* Permite imaginilor să treacă pe rândul următor dacă nu încap */
+    gap: 10px;                 /* Spațiu între imagini */
+    background-color: #f6dfd0; /* Background-ul întregului container */
+    border: #5C4033 8px outset;
+  
+    overflow: auto;
+}
+
+.pozepisici {
+    /* display: flex; */
+    background-color: #f6dfd0;
+    /* justify-content: center; */
+    border: #94ab94c7 8px outset;
+
+
+
+    /* justify-content: space-around; 
+    flex-wrap: wrap;
+    size: 20px; */
+
+
+    width: 50vw;
+    height: 50vh; 
+
+    display: flex; /* Activează Flexbox pentru container */
+    justify-content: center; /* Centrează imaginile pe axa orizontală */
+    align-items: center; /* Opțional, centrează imaginile pe axa verticală */
+    gap: 10px; /* Adaugă un spațiu între imagini */ 
+    width: 100%;
+
+}
+
+.pozepisici img {
+  height: 100%;
+  object-fit: contain;
+  background-color: #5C4033; 
+  max-width: 100%; 
+  max-height: 100%; 
+  border: #5C4033 8px outset;
+}
+
+
+
+
+/* Textul descriptiv pentru fiecare pisică */
+
+.list{
+    color: #5C4033;
+    border: #c4a189 8px outset;
+    display: block;
+    background-color: #f6dfd0;
+    padding: 5.2%;
+    float: left;
+}
+
+.list {
+    text-align: justify;
+    height: auto;
+    width: 26vw;
+}
+
+.list dt{
+    font-size: 180%;
+    display: inline-block;
+}
+
+.list dd{
+    margin-bottom: 2%;
+}
+
+.list dd:before{
+    content:"-";
+}
+
+/* Ajustăm spațierea și dimensiunea textului pentru a umple spațiul gol, dacă este cazul */
+.list h3 {
+    font-size: 85%; /* Mărimea titlului */
+    color: #5C4033;
+    padding-left: 20%;
+}
+
+.list dd {
+    font-size: 92%; /* Mărimea descrierii */
+    margin-left: 2.2vw; /* Spațierea pentru list */
+}
+
+/* Media Queries pentru Responsive Design */
+@media screen and (max-width: 768px) {
+    .rows {
+        flex-direction: column;
+    }
+}
+
+
+
+
+
+
+.container {
+    display: flex;
+    background-color: #c4a189;
+    border: #5C4033 8px;
+    border-style: outset;
+  }
+  
+  .col {
+    flex: 1; /* fiecare coloană va lua o treime din spațiu */
+    padding: 10px; /* spațiu în interiorul coloanelor */
+    box-sizing: border-box; /* include padding în calculul lățimii */
+  }
+  
+.description {
+    color: #5C4033;
+    border: #c4a189 8px outset;
+    background-color: #f6dfd0;
+    flex: 2;
+}
+
+.description p {
+    font-size: medium;
+}
+
+.image-container {
+    color: #5C4033;
+    border: #c4a189 8px outset;
+    background-color: #f6dfd0;
+}
+
+
+ /* pseudoclasses
+
+a:link{
+    color: blue
+}
+a:hover{
+    color: aliceblue;
+    font-size: medium;
+}
+a:active{
+    color: aquamarine;
+    font-size: large;
+}
+a:visited{
+    color: tomato;
+}
+a:not(:hover){
+    background-color: aliceblue;
+}
+li:nth-child(3n){
+    color: aquamarine;
+} */
+
+/* pseudoelement
+
+h1::first-letter{
+    font-size: 2em;
+    font-style: italic;
+}
+p::first-line{
+    background-color: yellow;
+}
+p::selection{
+    color: yellow;
+    background-color: black;
+}
+#exemplu_id li::before{
+    content: "inainte de elem din lista";
+}
+#exemplu_id li::after{
+    content: "dupa elem din lista";
+}
+#exemplu_id li::marker{
+    content: "schimba bulina de la o lista";
+    color: aquamarine;
+} */
+
+
+
+/* 3 sectiuni: lista, descriere, 
+ 
+fiecare sectiune are o clasa
+
+sectiunile vor face parte din datepis
+
+datepis se va folosi de     
+    display: flex;
+    align-content: center; --posibil fara asta, ca vreau doar orizontal sa fie aranjate
+    justify-content: center;
+
+    optional pot la fiecare sectiune sa pun align-content: left/center/right
+    o sa pun la sectiuni dimensini de ceva gen width 30 vw
+    la height fie auto fie sa fie continut in datepis cu object-fit: contain
+
+
+
+*/
+
+
+
+

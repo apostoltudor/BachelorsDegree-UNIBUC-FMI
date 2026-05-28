@@ -1,0 +1,106 @@
+[
+    {
+        "ttl": 1,
+        "ip": "172.29.208.1",
+        "elapsed_ms": 0.71,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 2,
+        "ip": "192.168.1.1",
+        "elapsed_ms": 4.53,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 3,
+        "ip": "10.0.0.1",
+        "elapsed_ms": 3.42,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 4,
+        "ip": "10.30.2.145",
+        "elapsed_ms": 5.0,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 5,
+        "ip": "10.220.164.130",
+        "elapsed_ms": 6.32,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 7,
+        "ip": "10.221.96.19",
+        "elapsed_ms": 45.13,
+        "location": "Private IP - no geo info",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "ttl": 8,
+        "ip": "195.66.224.198",
+        "elapsed_ms": 46.73,
+        "location": "United Kingdom, England, London",
+        "lat": 51.5072,
+        "lon": -0.127586
+    },
+    {
+        "ttl": 9,
+        "ip": "168.209.100.18",
+        "elapsed_ms": 214.38,
+        "location": "South Africa, Gauteng, Johannesburg",
+        "lat": -26.1913,
+        "lon": 28.0358
+    },
+    {
+        "ttl": 10,
+        "ip": "168.209.1.201",
+        "elapsed_ms": 213.14,
+        "location": "South Africa, Gauteng, Johannesburg",
+        "lat": -26.1913,
+        "lon": 28.0358
+    },
+    {
+        "ttl": 11,
+        "ip": "168.209.129.138",
+        "elapsed_ms": 214.13,
+        "location": "South Africa, Gauteng, Johannesburg",
+        "lat": -26.1913,
+        "lon": 28.0358
+    },
+    {
+        "ttl": 12,
+        "ip": "168.209.90.94",
+        "elapsed_ms": 223.88,
+        "location": "South Africa, Gauteng, Johannesburg",
+        "lat": -26.1913,
+        "lon": 28.0358
+    },
+    {
+        "ttl": 13,
+        "ip": "168.209.131.145",
+        "elapsed_ms": 213.67,
+        "location": "South Africa, Gauteng, Johannesburg",
+        "lat": -26.1913,
+        "lon": 28.0358
+    },
+    {
+        "ttl": 14,
+        "ip": "197.103.130.130",
+        "elapsed_ms": 211.91,
+        "location": "South Africa, Gauteng, Orange Farm",
+        "lat": -26.4809,
+        "lon": 27.869
+    }
+]

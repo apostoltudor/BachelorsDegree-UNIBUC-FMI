@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    
+    <%- include("/Users/tudorapostol/Documents/Facultate/Y1S2/Tehnici_Web/proiect_tw copy/views/partials/head.ejs") %>
+
+</head>
+<body>
+
+    <nav>
+        <div class="dropdown">
+            <button><b>Meniu</b></button>
+            <div class="content">
+                <a href="/home">Acasă</a>
+                <a href="/disponibile">Pisici spre adopție</a>
+                <a href="/adoptate">Pisici adoptate</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+
+        <%- include("/Users/tudorapostol/Documents/Facultate/Y1S2/Tehnici_Web/proiect_tw copy/views/partials/header.ejs") %>
+
+
+    </header>
+    
+    <hr id="bara_sus">
+    <hr id="bara_sus">
+
+
+    <main>
+        <section>
+            <h2>Despre noi</h2>
+    
+            <p id="about">Într-o zi, am găsit o pisicuță speriată și flămândă lângă casa mea. Am simțit o mare milă pentru ea și am decis să o ajut. Acea întâmplare a deschis ochii mei către suferința altor pisici rătăcite de pe străzi.
+    
+                Din acel moment, am început să ofer adăpost și hrană pisicilor fără stăpân din vecinătate. Văzând cât de multă nevoie există, am înființat "Adăpostul lui Tudor de Pisici", un loc dedicat oferirii de îngrijire și iubire pisicilor nefericite.
+                
+                Echipa noastră este pasionată să ofere fiecărei pisici fără adăpost șansa la un cămin iubitor și permanent. Aici, fiecare pisică este tratată cu respect și primește tot sprijinul de care are nevoie pentru a găsi un nou început.</p>
+    
+    
+        </section>
+    
+        <hr id="bara_sus">
+    
+        <section>
+            <h2>Orar</h2>
+    
+            <br>
+            <table class="orar">
+                <tr>
+                    <th>Luni</th>
+                    <th>Marți</th>
+                    <th>Miercuri</th>
+                    <th>Joi</th>
+                    <th>Vineri</th>
+                    <th>Sâmbată</th>
+                    <th>Duminică</th>
+                </tr>
+                <tr align="center">
+                    <td>10:00 - 17:00</td>
+                    <td>10:00 - 17:00</td>
+                    <td>10:00 - 17:00</td>
+                    <td>10:00 - 17:00</td>
+                    <td>10:00 - 17:00</td>
+                    <td>12:00 - 16:00</td>
+                    <td>Închis</td>
+                </tr>
+            </table>
+            <table class="orar" style="border-top: none;">
+                <tr>
+                    <th>
+                        Program de la 10:00 la 14:00 pentru sărbătorile legale ce pică în timpul saptămânii.
+                    </th>
+                </tr>
+            </table>
+        </section>
+    </main>
+    
+
+    <footer>
+
+        <%- include("/Users/tudorapostol/Documents/Facultate/Y1S2/Tehnici_Web/proiect_tw copy/views/partials/footer.ejs") %>
+
+    </footer>
+
+    <script src="/resources/proiect.js"></script>
+
+</body>
+</html>

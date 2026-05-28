@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "docker-debug",
+        "type": "cppdbg",
+        "request": "launch",
+        "miDebuggerServerAddress": "0.0.0.0:4444",
+        "program": "${workspaceFolder}/executable",
+        "args": [],
+        "stopAtEntry": true,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,
+        "logging": {
+          "engineLogging": false
+        },
+        "MIMode": "gdb"
+      },
+      {
+        "name": "vscode-debug",
+        "type": "cppdbg",
+        "request": "launch",
+        "miDebuggerServerAddress": "0.0.0.0:4444",
+        "program": "${workspaceFolder}/executable",
+        "args": [],
+        "stopAtEntry": true,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,
+        "logging": {
+          "engineLogging": false
+        },
+        "MIMode": "gdb",
+        "preLaunchTask": "docker-compose-debug-up"
+      }
+    ]
+  }

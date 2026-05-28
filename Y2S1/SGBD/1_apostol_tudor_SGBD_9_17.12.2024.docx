@@ -1,0 +1,18 @@
+CREATE OR REPLACE TRIGGER restrict_deletion_dept
+BEFORE DELETE ON dept_233_at
+FOR EACH ROW
+BEGIN
+    IF USER != 'SCOTT' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Nu ai permisunea sa stergi date din acest tabel');
+    END IF;
+END restrict_deletion_dept;
+/
+
+CREATE OR REPLACE TRIGGER check_commission_increase
+BEFORE UPDATE OF commission_pct ON emp_233_at
+FOR EACH ROW
+BEGIN
+    IF :NEW.commission_pct > 0.5 * :NEW.salary THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Comisionul nu poate sa depaseasca 50% din salariu');
+    END IF;
+END check_commission_increase;

@@ -1,0 +1,876 @@
+CREATE SEQUENCE seq_departamente
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_functii
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_angajati
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_istoric_angajati
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_clienti
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_locatii
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_materiale
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_echipamente
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_tip_serviciu
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_servicii
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE seq_programari
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+
+
+--cerinta 4
+CREATE TABLE DEPARTAMENTE (
+    id_departament INT PRIMARY KEY,
+    nume_departament VARCHAR(50) NOT NULL,
+    manager VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE CLIENTI (
+    id_client INT PRIMARY KEY,
+    nume_client VARCHAR(100) NOT NULL,
+    telefon VARCHAR(15) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE LOCATII (
+    id_locatie INT PRIMARY KEY,
+    judet VARCHAR(50) NOT NULL,
+    localitate VARCHAR(50) NOT NULL,
+    adresa VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE MATERIALE (
+    id_material INT PRIMARY KEY,
+    nume_material VARCHAR(50) NOT NULL,
+    cantitate INT NOT NULL
+);
+
+CREATE TABLE ECHIPAMENTE (
+    id_echipament INT PRIMARY KEY,
+    nume_echipament VARCHAR(50) NOT NULL,
+    stare VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE TIP_SERVICIU (
+    id_tip_serviciu INT PRIMARY KEY,
+    nume_tip VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE FUNCTII (
+    id_functie INT PRIMARY KEY,
+    nume_functie VARCHAR(50) NOT NULL,
+    id_departament INT NOT NULL,
+    regim_lucru VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_departament) REFERENCES DEPARTAMENTE(id_departament)
+);
+
+CREATE TABLE ANGAJATI (
+    id_angajat INT PRIMARY KEY,
+    nume VARCHAR(50) NOT NULL,
+    prenume VARCHAR(50) NOT NULL,
+    data_nastere DATE NOT NULL,
+    id_functie INT NOT NULL,
+    id_departament INT NOT NULL,
+    salariu DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_functie) REFERENCES FUNCTII(id_functie),
+    FOREIGN KEY (id_departament) REFERENCES DEPARTAMENTE(id_departament)
+);
+
+CREATE TABLE ISTORIC_ANGAJATI (
+    id_istoric INT PRIMARY KEY,
+    id_angajat INT NOT NULL,
+    data_angajare DATE NOT NULL,
+    data_plecare DATE,
+    FOREIGN KEY (id_angajat) REFERENCES ANGAJATI(id_angajat)
+);
+
+CREATE TABLE SERVICII (
+    id_serviciu INT PRIMARY KEY,
+    nume_serviciu VARCHAR(50) NOT NULL,
+    id_tip_serviciu INT NOT NULL,
+    pret DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_tip_serviciu) REFERENCES TIP_SERVICIU(id_tip_serviciu)
+);
+
+CREATE TABLE PROGRAMARI (
+    id_programare INT PRIMARY KEY,
+    id_client INT NOT NULL,
+    id_locatie INT NOT NULL,
+    data_ora TIMESTAMP NOT NULL,
+    FOREIGN KEY (id_client) REFERENCES CLIENTI(id_client),
+    FOREIGN KEY (id_locatie) REFERENCES LOCATII(id_locatie)
+);
+
+CREATE TABLE ANGAJATI_SERVICII (
+    id_angajat INT,
+    id_serviciu INT,
+    PRIMARY KEY (id_angajat, id_serviciu),
+    FOREIGN KEY (id_angajat) REFERENCES ANGAJATI(id_angajat),
+    FOREIGN KEY (id_serviciu) REFERENCES SERVICII(id_serviciu)
+);
+
+CREATE TABLE MATERIALE_SERVICII (
+    id_material INT,
+    id_serviciu INT,
+    PRIMARY KEY (id_material, id_serviciu),
+    FOREIGN KEY (id_material) REFERENCES MATERIALE(id_material),
+    FOREIGN KEY (id_serviciu) REFERENCES SERVICII(id_serviciu)
+);
+
+CREATE TABLE ECHIPAMENTE_SERVICII (
+    id_echipament INT,
+    id_serviciu INT,
+    PRIMARY KEY (id_echipament, id_serviciu),
+    FOREIGN KEY (id_echipament) REFERENCES ECHIPAMENTE(id_echipament),
+    FOREIGN KEY (id_serviciu) REFERENCES SERVICII(id_serviciu)
+);
+
+CREATE TABLE PROGRAMARI_SERVICII (
+    id_programare INT,
+    id_serviciu INT,
+    PRIMARY KEY (id_programare, id_serviciu),
+    FOREIGN KEY (id_programare) REFERENCES PROGRAMARI(id_programare),
+    FOREIGN KEY (id_serviciu) REFERENCES SERVICII(id_serviciu)
+);
+
+
+
+
+
+
+
+
+
+--cerinta 5
+INSERT INTO DEPARTAMENTE (id_departament, nume_departament, manager) VALUES
+(seq_departamente.NEXTVAL, 'Curatenie Rezidentiala', 'Zarzalin Marius');
+INSERT INTO DEPARTAMENTE (id_departament, nume_departament, manager) VALUES
+(seq_departamente.NEXTVAL, 'Curatenie Comerciala', 'Jelea Dana');
+INSERT INTO DEPARTAMENTE (id_departament, nume_departament, manager) VALUES
+(seq_departamente.NEXTVAL, 'Curatenie Industriala', 'Motan Andrei');
+INSERT INTO DEPARTAMENTE (id_departament, nume_departament, manager) VALUES
+(seq_departamente.NEXTVAL, 'Curatenie pentru Evenimente', 'Sandu Fanel');
+INSERT INTO DEPARTAMENTE (id_departament, nume_departament, manager) VALUES
+(seq_departamente.NEXTVAL, 'Curatenie dupa Constructii', 'Lupu George');
+INSERT INTO DEPARTAMENTE (id_departament, nume_departament, manager) VALUES
+(seq_departamente.NEXTVAL, 'Management', 'Apostol Tudor');
+
+INSERT INTO FUNCTII (id_functie, nume_functie, id_departament, regim_lucru) VALUES
+(seq_functii.NEXTVAL, 'Manager', 6, 'Full-time');
+INSERT INTO FUNCTII (id_functie, nume_functie, id_departament, regim_lucru) VALUES
+(seq_functii.NEXTVAL, 'Curatator de resedinte', 1, 'Part-time');
+INSERT INTO FUNCTII (id_functie, nume_functie, id_departament, regim_lucru) VALUES
+(seq_functii.NEXTVAL, 'Curatator pentru centre comerciale', 2, 'Full-time');
+INSERT INTO FUNCTII (id_functie, nume_functie, id_departament, regim_lucru) VALUES
+(seq_functii.NEXTVAL, 'Curatator pentru evenimente', 4, 'Part-time');
+INSERT INTO FUNCTII (id_functie, nume_functie, id_departament, regim_lucru) VALUES
+(seq_functii.NEXTVAL, 'Curatator dupa constructii', 5, 'Full-time');
+INSERT INTO FUNCTII (id_functie, nume_functie, id_departament, regim_lucru) VALUES
+(seq_functii.NEXTVAL, 'Curatator pentru industriale', 3, 'Full-time');
+
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Apostol', 'Tudor', '25-FEB-04', 1, 6, 10000.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Zarzalin', 'Marius', '02-MAY-99', 1, 6, 4000.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Jelea', 'Dana', '01-AUG-70', 1, 6, 6000.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Motan', 'Andrei', '20-JAN-01', 1, 6, 5000.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Sandu', 'Fanel', '31-DEC-80', 1, 6, 4000.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Lupu', 'George', '03-OCT-03', 1, 6, 5500.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Nita', 'Ionut', '05-JAN-04', 2, 1, 1800.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Sandu', 'Emilian', '02-NOV-66', 3, 2, 3200.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Petre', 'Adrian', '29-FEB-00', 4, 4, 2200.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Ilie', 'Ana-Maria', '05-FEB-98', 5, 5, 3000.00);
+INSERT INTO ANGAJATI (id_angajat, nume, prenume, data_nastere, id_functie, id_departament, salariu) VALUES
+(seq_angajati.NEXTVAL, 'Necula', 'Claudia', '17-APR-2006', 6, 3, 2900.00);
+
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 1, '01-MAR-22', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 2, '05-MAY-23', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 3, '19-JUL-23', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 4, '13-JUN-23', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 5, '05-MAY-23', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 6, '03-JUL-23', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 7, '05-MAR-24', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 8, '25-FEB-24', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 9, '29-JAN-24', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 10, '27-DEC-23', NULL);
+INSERT INTO ISTORIC_ANGAJATI (id_istoric, id_angajat, data_angajare, data_plecare) VALUES
+(seq_istoric_angajati.NEXTVAL, 11, '18-JAN-23', NULL);
+
+INSERT INTO CLIENTI (id_client, nume_client, telefon, email) VALUES
+(seq_clienti.NEXTVAL, 'Maria Gabriela', '0790367926', 'maria.gabriela@gmail.com');
+INSERT INTO CLIENTI (id_client, nume_client, telefon, email) VALUES
+(seq_clienti.NEXTVAL, 'Kaufland Sud', '0706413686', 'kaufland.sud@yahoo.com');
+INSERT INTO CLIENTI (id_client, nume_client, telefon, email) VALUES
+(seq_clienti.NEXTVAL, 'Darius Events', '0755437962', 'dariusevents@gmail.com');
+INSERT INTO CLIENTI (id_client, nume_client, telefon, email) VALUES
+(seq_clienti.NEXTVAL, 'Ant Constructions', '0784736501', 'ant.constructions@outlook.com');
+INSERT INTO CLIENTI (id_client, nume_client, telefon, email) VALUES
+(seq_clienti.NEXTVAL, 'Rosca SRL', '0798521470', 'rosca.confectii@yahoo.com');
+
+INSERT INTO LOCATII (id_locatie, judet, localitate, adresa) VALUES
+(seq_locatii.NEXTVAL, 'Bucuresti', 'Sectorul 4', 'Drumul Dealul Bradului, Nr. 89, Bl. D7');
+INSERT INTO LOCATII (id_locatie, judet, localitate, adresa) VALUES
+(seq_locatii.NEXTVAL, 'Vrancea', 'Focsani', 'Str. Binelui, Nr. 204-206');
+INSERT INTO LOCATII (id_locatie, judet, localitate, adresa) VALUES
+(seq_locatii.NEXTVAL, 'Ilfov', 'Tunari', 'Str. Biruintei, Nr. 74');
+INSERT INTO LOCATII (id_locatie, judet, localitate, adresa) VALUES
+(seq_locatii.NEXTVAL, 'Bucuresti', 'Sectorul 6', 'Bvd. Iuliu Maniu, Nr. 479');
+INSERT INTO LOCATII (id_locatie, judet, localitate, adresa) VALUES
+(seq_locatii.NEXTVAL, 'Vrancea', 'Focsani', 'Str. Marasesti, Nr. 56-58');
+
+INSERT INTO MATERIALE (id_material, nume_material, cantitate) VALUES
+(seq_materiale.NEXTVAL, 'Detergenti', 544);
+INSERT INTO MATERIALE (id_material, nume_material, cantitate) VALUES
+(seq_materiale.NEXTVAL, 'Saci menajeri', 1139);
+INSERT INTO MATERIALE (id_material, nume_material, cantitate) VALUES
+(seq_materiale.NEXTVAL, 'Prosoape ', 300);
+INSERT INTO MATERIALE (id_material, nume_material, cantitate) VALUES
+(seq_materiale.NEXTVAL, 'Saci pentru aspiratoare', 2048);
+INSERT INTO MATERIALE (id_material, nume_material, cantitate) VALUES
+(seq_materiale.NEXTVAL, 'Manusi', 4066);
+
+INSERT INTO ECHIPAMENTE (id_echipament, nume_echipament, stare) VALUES
+(seq_echipamente.NEXTVAL, 'Aspiratoare', 'Nou');
+INSERT INTO ECHIPAMENTE (id_echipament, nume_echipament, stare) VALUES
+(seq_echipamente.NEXTVAL, 'Masini de spalat podele', 'Uzat');
+INSERT INTO ECHIPAMENTE (id_echipament, nume_echipament, stare) VALUES
+(seq_echipamente.NEXTVAL, 'Mopuri', 'Nou');
+INSERT INTO ECHIPAMENTE (id_echipament, nume_echipament, stare) VALUES
+(seq_echipamente.NEXTVAL, 'Maturi', 'Uzat');
+INSERT INTO ECHIPAMENTE (id_echipament, nume_echipament, stare) VALUES
+(seq_echipamente.NEXTVAL, 'Echipament de protectie', 'Nou');
+INSERT INTO ECHIPAMENTE (id_echipament, nume_echipament, stare) VALUES
+(seq_echipamente.NEXTVAL, 'Aparat de spalat cu presiune', 'Aproape nou');
+INSERT INTO ECHIPAMENTE (id_echipament, nume_echipament, stare) VALUES
+(seq_echipamente.NEXTVAL, 'Scari', 'Buna');
+INSERT INTO ECHIPAMENTE (id_echipament, nume_echipament, stare) VALUES
+(seq_echipamente.NEXTVAL, 'Carucioare de curatenie', 'Buna');
+
+INSERT INTO TIP_SERVICIU (id_tip_serviciu, nume_tip) VALUES
+(seq_tip_serviciu.NEXTVAL, 'Zilnic');
+INSERT INTO TIP_SERVICIU (id_tip_serviciu, nume_tip) VALUES
+(seq_tip_serviciu.NEXTVAL, 'Saptamanal');
+INSERT INTO TIP_SERVICIU (id_tip_serviciu, nume_tip) VALUES
+(seq_tip_serviciu.NEXTVAL, 'Lunar');
+INSERT INTO TIP_SERVICIU (id_tip_serviciu, nume_tip) VALUES
+(seq_tip_serviciu.NEXTVAL, 'Dupa client');
+INSERT INTO TIP_SERVICIU (id_tip_serviciu, nume_tip) VALUES
+(seq_tip_serviciu.NEXTVAL, 'Dimineata si seara');
+
+INSERT INTO SERVICII (id_serviciu, nume_serviciu, id_tip_serviciu, pret) VALUES
+(seq_servicii.NEXTVAL, 'Curatenie profunda', 3, 250.00);
+INSERT INTO SERVICII (id_serviciu, nume_serviciu, id_tip_serviciu, pret) VALUES
+(seq_servicii.NEXTVAL, 'Curatenie zilnica', 1, 300.00);
+INSERT INTO SERVICII (id_serviciu, nume_serviciu, id_tip_serviciu, pret) VALUES
+(seq_servicii.NEXTVAL, 'Curatenie inainte si dupa', 5, 400.00);
+INSERT INTO SERVICII (id_serviciu, nume_serviciu, id_tip_serviciu, pret) VALUES
+(seq_servicii.NEXTVAL, 'Curatenie finala de santier', 4, 800.00);
+INSERT INTO SERVICII (id_serviciu, nume_serviciu, id_tip_serviciu, pret) VALUES
+(seq_servicii.NEXTVAL, 'Curatenie industriala', 2, 500.00);
+
+INSERT INTO PROGRAMARI (id_programare, id_client, id_locatie, data_ora) VALUES
+(seq_programari.NEXTVAL, 1, 1, TO_TIMESTAMP ('09-FEB-24 07:00:00', 'DD-MON-RR HH24:MI:SS'));
+INSERT INTO PROGRAMARI (id_programare, id_client, id_locatie, data_ora) VALUES
+(seq_programari.NEXTVAL, 2, 2, TO_TIMESTAMP ('22-MAR-24 18:00:00', 'DD-MON-RR HH24:MI:SS'));
+INSERT INTO PROGRAMARI (id_programare, id_client, id_locatie, data_ora) VALUES
+(seq_programari.NEXTVAL, 3, 3, TO_TIMESTAMP ('29-MAR-24 06:30:00', 'DD-MON-RR HH24:MI:SS'));
+INSERT INTO PROGRAMARI (id_programare, id_client, id_locatie, data_ora) VALUES
+(seq_programari.NEXTVAL, 4, 4, TO_TIMESTAMP ('30-APR-24 15:30:00', 'DD-MON-RR HH24:MI:SS'));
+INSERT INTO PROGRAMARI (id_programare, id_client, id_locatie, data_ora) VALUES
+(seq_programari.NEXTVAL, 5, 5, TO_TIMESTAMP ('19-MAR-24 21:00:00', 'DD-MON-RR HH24:MI:SS'));
+
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (1, 1);
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (2, 2);
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (3, 3);
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (4, 4);
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (5, 5);
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (1, 2);
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (2, 3);
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (3, 4);
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (4, 5);
+INSERT INTO ANGAJATI_SERVICII (id_angajat, id_serviciu) VALUES (5, 1);
+
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (1, 1);
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (2, 2);
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (3, 3);
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (4, 4);
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (5, 5);
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (1, 2);
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (2, 3);
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (3, 4);
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (4, 5);
+INSERT INTO MATERIALE_SERVICII (id_material, id_serviciu) VALUES (5, 1);
+
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (1, 1);
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (2, 2);
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (3, 3);
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (4, 4);
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (5, 5);
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (1, 2);
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (2, 3);
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (3, 4);
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (4, 5);
+INSERT INTO ECHIPAMENTE_SERVICII (id_echipament, id_serviciu) VALUES (5, 1);
+
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (1, 1);
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (2, 2);
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (3, 3);
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (4, 4);
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (5, 5);
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (1, 2);
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (2, 3);
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (3, 4);
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (4, 5);
+INSERT INTO PROGRAMARI_SERVICII (id_programare, id_serviciu) VALUES (5, 1);
+
+
+
+
+
+
+
+--cerinta 6
+--Pentru fiecare client, afișați toate programările sale,
+--serviciile solicitate pentru fiecare programare
+--și echipamentele necesare pentru aceste servicii.
+CREATE OR REPLACE PROCEDURE p_raport_clienti IS
+    TYPE t_programari IS TABLE OF TIMESTAMP;
+    v_programari t_programari;
+    
+    TYPE t_serviciu IS RECORD (
+        nume_serviciu VARCHAR2(50),
+        pret DECIMAL(10,2)
+    );
+    TYPE t_lista_servicii IS TABLE OF t_serviciu INDEX BY PLS_INTEGER;
+    v_servicii t_lista_servicii;
+    
+    TYPE t_clienti IS VARRAY(100) OF VARCHAR2(100);
+    v_lista_clienti t_clienti := t_clienti();
+    
+    v_echipamente_serviciu VARCHAR2(1000);
+    v_total_servicii NUMBER;
+    v_cost_total DECIMAL(10,2);
+BEGIN
+    SELECT nume_client 
+    BULK COLLECT INTO v_lista_clienti
+    FROM clienti;
+    
+    FOR i IN 1..v_lista_clienti.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE('>');
+        DBMS_OUTPUT.PUT_LINE('CLIENT: ' || v_lista_clienti(i));
+        DBMS_OUTPUT.PUT_LINE('>');
+        
+        SELECT p.data_ora
+        BULK COLLECT INTO v_programari
+        FROM programari p
+        JOIN clienti c ON p.id_client = c.id_client
+        WHERE c.nume_client = v_lista_clienti(i)
+        ORDER BY p.data_ora;
+        
+        IF v_programari.COUNT > 0 THEN
+            DBMS_OUTPUT.PUT_LINE('Programari:');
+            FOR j IN 1..v_programari.COUNT LOOP
+                DBMS_OUTPUT.PUT_LINE(CHR(10) || 'Programare ' || j || ': ' || 
+                    TO_CHAR(v_programari(j), 'DD-MON-YYYY HH24:MI'));
+                
+                SELECT s.nume_serviciu, s.pret
+                BULK COLLECT INTO v_servicii
+                FROM servicii s
+                JOIN programari_servicii ps ON s.id_serviciu = ps.id_serviciu
+                JOIN programari p ON ps.id_programare = p.id_programare
+                JOIN clienti c ON p.id_client = c.id_client
+                WHERE c.nume_client = v_lista_clienti(i)
+                AND p.data_ora = v_programari(j);
+                
+                v_cost_total := 0;
+                IF v_servicii.COUNT > 0 THEN
+                    DBMS_OUTPUT.PUT_LINE('  Servicii solicitate:');
+                    FOR k IN 1..v_servicii.COUNT LOOP
+                        SELECT LISTAGG(e.nume_echipament, ', ') 
+                            WITHIN GROUP (ORDER BY e.nume_echipament)
+                        INTO v_echipamente_serviciu
+                        FROM echipamente e
+                        JOIN echipamente_servicii es ON e.id_echipament = es.id_echipament
+                        JOIN servicii s ON es.id_serviciu = s.id_serviciu
+                        WHERE s.nume_serviciu = v_servicii(k).nume_serviciu;
+                        
+                        DBMS_OUTPUT.PUT_LINE('    - ' || v_servicii(k).nume_serviciu || 
+                            ' (Pret: ' || v_servicii(k).pret || ' RON)');
+                        DBMS_OUTPUT.PUT_LINE('      Echipamente: ' || v_echipamente_serviciu);
+                        
+                        v_cost_total := v_cost_total + v_servicii(k).pret;
+                    END LOOP;
+                    DBMS_OUTPUT.PUT_LINE('  Cost total programare: ' || v_cost_total || ' RON');
+                END IF;
+            END LOOP;
+            
+            SELECT COUNT(DISTINCT s.id_serviciu)
+            INTO v_total_servicii
+            FROM servicii s
+            JOIN programari_servicii ps ON s.id_serviciu = ps.id_serviciu
+            JOIN programari p ON ps.id_programare = p.id_programare
+            JOIN clienti c ON p.id_client = c.id_client
+            WHERE c.nume_client = v_lista_clienti(i);
+            
+            DBMS_OUTPUT.PUT_LINE(CHR(10) || 'Statistici:');
+            DBMS_OUTPUT.PUT_LINE('  - Numar total programari: ' || v_programari.COUNT);
+            DBMS_OUTPUT.PUT_LINE('  - Numar total servicii distincte: ' || v_total_servicii);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Nu exista programari pentru acest client.');
+        END IF;
+        
+        DBMS_OUTPUT.PUT_LINE('>' || CHR(10));
+    END LOOP;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Eroare: ' || SQLERRM);
+END p_raport_clienti;
+/
+
+BEGIN
+    p_raport_clienti();
+END;
+/
+
+
+
+
+--cerinta 7
+--Generează o listă care să cuprindă:
+--angajații dintr-un anumit departament
+--și serviciile asociate fiecărui angajat.
+CREATE OR REPLACE PROCEDURE raport_servicii_angajati ( 
+    p_departament_id IN NUMBER 
+) AS 
+    CURSOR c_angajati IS 
+        SELECT id_angajat, nume, prenume 
+        FROM ANGAJATI 
+        WHERE id_departament = p_departament_id; 
+     
+    CURSOR c_servicii_angajat (p_angajat_id NUMBER) IS 
+        SELECT S.nume_serviciu 
+        FROM ANGAJATI_SERVICII A 
+        JOIN SERVICII S ON A.id_serviciu = S.id_serviciu 
+        WHERE A.id_angajat = p_angajat_id; 
+     
+    v_id_angajat ANGAJATI.id_angajat%TYPE; 
+    v_nume ANGAJATI.nume%TYPE; 
+    v_prenume ANGAJATI.prenume%TYPE; 
+    v_serviciu SERVICII.nume_serviciu%TYPE; 
+BEGIN 
+    OPEN c_angajati; 
+    LOOP 
+        FETCH c_angajati INTO v_id_angajat, v_nume, v_prenume; 
+        EXIT WHEN c_angajati%NOTFOUND; 
+ 
+        DBMS_OUTPUT.PUT_LINE('Angajat: ' || v_nume || ' ' || v_prenume); 
+ 
+        OPEN c_servicii_angajat(v_id_angajat); 
+        LOOP 
+            FETCH c_servicii_angajat INTO v_serviciu; 
+            EXIT WHEN c_servicii_angajat%NOTFOUND; 
+ 
+            DBMS_OUTPUT.PUT_LINE('  -> Serviciu: ' || v_serviciu); 
+        END LOOP; 
+        CLOSE c_servicii_angajat; 
+    END LOOP; 
+    CLOSE c_angajati; 
+END;
+/
+
+BEGIN  
+    raport_servicii_angajati(6);  
+END;
+/
+
+
+
+
+--cerinta 8
+--Identificați costul total al serviciilor prestate la o anumită locație specificată.
+CREATE OR REPLACE FUNCTION calcul_cost_locatie (
+    p_adresa IN VARCHAR2
+) RETURN NUMBER IS
+    v_cost_total NUMBER := 0;
+    v_id_locatie LOCATII.id_locatie%TYPE;
+BEGIN
+    SELECT id_locatie
+    INTO v_id_locatie
+    FROM LOCATII
+    WHERE adresa = p_adresa;
+
+    SELECT SUM(S.pret)
+    INTO v_cost_total
+    FROM PROGRAMARI P
+    JOIN PROGRAMARI_SERVICII PS ON P.id_programare = PS.id_programare
+    JOIN SERVICII S ON PS.id_serviciu = S.id_serviciu
+    WHERE P.id_locatie = v_id_locatie;
+
+    RETURN v_cost_total;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Eroare: Nu s-au găsit date pentru locația specificată.');
+        RETURN 0;
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE('Eroare: Adresa specificată este duplicată în tabelul LOCATII.');
+        RETURN -1;
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Eroare neașteptată: ' || SQLERRM);
+        RETURN -1;
+END;
+/
+
+--caz normal
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Cost total: ' || calcul_cost_locatie('Str. Binelui, Nr. 204-206'));
+END;
+/
+--caz NO_DATA_FOUND
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Cost total: ' || calcul_cost_locatie('Adresa inexistentă'));
+END;
+/
+--caz TOO_MANY_ROWS
+INSERT INTO LOCATII (id_locatie, judet, localitate, adresa)
+VALUES (6, 'Vrancea', 'Focsani', 'Str. Binelui, Nr. 204-206');
+COMMIT;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Cost total: ' || calcul_cost_locatie('Str. Binelui, Nr. 204-206'));
+END;
+/
+DELETE FROM LOCATII 
+WHERE id_locatie = 6;
+COMMIT;
+
+
+
+--cerinta 9
+--Generați un raport detaliat al serviciilor solicitate de un client la o anumită locație. 
+--Procedura va primi ca parametri ID-ul clientului și ID-ul locației și va afișa informații despre client (nume și email), 
+--adresa locației și detalii despre serviciile programate (nume serviciu și cost). 
+--În cazul în care nu există programări pentru clientul și locația specificată sau nu există servicii asociate programărilor, 
+--procedura va afișa mesaje de eroare corespunzătoare.
+CREATE OR REPLACE PROCEDURE raport_client_locatie (
+    p_id_client IN NUMBER,
+    p_id_locatie IN NUMBER
+) AS
+    no_programari_found EXCEPTION;
+    no_servicii_found EXCEPTION;
+
+    v_count_programari NUMBER := 0;
+    v_count_servicii NUMBER := 0;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_count_programari
+    FROM PROGRAMARI P
+    WHERE P.id_client = p_id_client AND P.id_locatie = p_id_locatie;
+
+    IF v_count_programari = 0 THEN
+        RAISE no_programari_found;
+    END IF;
+
+    FOR r IN (
+        SELECT 
+            C.nume_client, C.email,
+            L.adresa,
+            S.nume_serviciu, S.pret
+        FROM CLIENTI C
+        JOIN PROGRAMARI P ON C.id_client = P.id_client
+        JOIN LOCATII L ON P.id_locatie = L.id_locatie
+        JOIN PROGRAMARI_SERVICII PS ON P.id_programare = PS.id_programare
+        JOIN SERVICII S ON PS.id_serviciu = S.id_serviciu
+        WHERE C.id_client = p_id_client AND L.id_locatie = p_id_locatie
+    ) LOOP
+        v_count_servicii := v_count_servicii + 1;
+
+        DBMS_OUTPUT.PUT_LINE('Client: ' || r.nume_client || ', Email: ' || r.email);
+        DBMS_OUTPUT.PUT_LINE('Locație: ' || r.adresa);
+        DBMS_OUTPUT.PUT_LINE('Serviciu: ' || r.nume_serviciu || ', Cost: ' || r.pret);
+    END LOOP;
+
+    IF v_count_servicii = 0 THEN
+        RAISE no_servicii_found;
+    END IF;
+
+EXCEPTION
+    WHEN no_programari_found THEN
+        DBMS_OUTPUT.PUT_LINE('Eroare: Nu există programări pentru clientul și locația specificată.');
+    
+    WHEN no_servicii_found THEN
+        DBMS_OUTPUT.PUT_LINE('Eroare: Nu există servicii asociate programărilor pentru clientul și locația specificată.');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Eroare neașteptată: ' || SQLERRM);
+END;
+/
+
+--caz normal
+BEGIN
+    raport_client_locatie(1, 1); 
+END;
+/
+--caz no_programari_found
+BEGIN
+    raport_client_locatie(999, 1);
+END;
+/
+--caz no_servicii_found
+DELETE FROM PROGRAMARI_SERVICII
+WHERE id_programare IN (
+    SELECT id_programare
+    FROM PROGRAMARI
+    WHERE id_client = 1 AND id_locatie = 1
+);
+BEGIN
+    raport_client_locatie(1, 1);
+END;
+/
+rollback;
+
+
+--cerinta 10
+--Creați un trigger care să se declanșează după o operațiune de tip insert asupra tabelului PROGRAMARI.
+--Trigger-ul va actualiza o tabelă jurnal (LOG_PROGRAMARI)
+--care înregistrează informații despre numărul de programări adăugate și momentul când au fost inserate. 
+CREATE TABLE log_programari (
+    id_log NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    data_operatiune TIMESTAMP DEFAULT SYSTIMESTAMP,
+    tip_operatiune VARCHAR2(30),
+    numar_programari NUMBER
+);
+
+CREATE OR REPLACE TRIGGER tr_insert_programari
+AFTER INSERT ON programari
+DECLARE
+    v_numar_programari NUMBER;
+BEGIN
+    SELECT COUNT(*) 
+    INTO v_numar_programari 
+    FROM programari;
+    
+    INSERT INTO log_programari (tip_operatiune, numar_programari)
+    VALUES ('INSERT', v_numar_programari);
+    
+    DBMS_OUTPUT.PUT_LINE('S-au adaugat programari noi. Numar total programari: ' || v_numar_programari);
+END;
+/
+
+INSERT INTO programari (id_programare, id_client, id_locatie, data_ora)
+VALUES (seq_programari.NEXTVAL, 1, 1, 
+        TO_TIMESTAMP('2025-01-10 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO programari (id_programare, id_client, id_locatie, data_ora)
+VALUES (seq_programari.NEXTVAL, 2, 2, 
+        TO_TIMESTAMP('2025-01-11 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+SELECT TO_CHAR(data_operatiune, 'DD-MON-YYYY HH24:MI:SS') as data_operatiune,
+       tip_operatiune,
+       numar_programari
+FROM log_programari
+ORDER BY data_operatiune;
+
+ROLLBACK;
+DROP TABLE log_programari;
+
+
+
+--cerinta 11
+--Creați un trigger LMD la nivel de linie care să monitorizeze modificările salariilor angajaților 
+--și să păstreze un istoric al acestor modificări.
+CREATE TABLE istoric_modificari_salariu (
+    id_istoric NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_angajat NUMBER,
+    salariu_vechi NUMBER(10,2),
+    salariu_nou NUMBER(10,2),
+    data_modificare TIMESTAMP DEFAULT SYSTIMESTAMP,
+    utilizator VARCHAR2(30),
+    motiv VARCHAR2(100)
+);
+
+CREATE OR REPLACE TRIGGER trg_modificare_salariu
+BEFORE UPDATE OF salariu ON angajati
+FOR EACH ROW
+DECLARE
+    v_motiv VARCHAR2(100);
+BEGIN
+    IF :NEW.salariu > :OLD.salariu THEN
+        v_motiv := 'Majorare salariu cu ' || 
+                   ROUND((:NEW.salariu - :OLD.salariu) / :OLD.salariu * 100, 2) || '%';
+    ELSIF :NEW.salariu < :OLD.salariu THEN
+        v_motiv := 'Reducere salariu cu ' || 
+                   ROUND((:OLD.salariu - :NEW.salariu) / :OLD.salariu * 100, 2) || '%';
+        
+        IF (:OLD.salariu - :NEW.salariu) / :OLD.salariu > 0.25 THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Reducerea salarială nu poate depăși 25%');
+        END IF;
+    ELSE
+        v_motiv := 'Încercare de actualizare fără modificare';
+    END IF;
+    
+    INSERT INTO istoric_modificari_salariu (
+        id_angajat,
+        salariu_vechi,
+        salariu_nou,
+        utilizator,
+        motiv
+    ) VALUES (
+        :OLD.id_angajat,
+        :OLD.salariu,
+        :NEW.salariu,
+        USER,
+        v_motiv
+    );
+    
+    DBMS_OUTPUT.PUT_LINE('Modificare salariu pentru angajatul cu ID ' || :OLD.id_angajat);
+    DBMS_OUTPUT.PUT_LINE(v_motiv);
+END;
+/
+
+--majorare salariu
+UPDATE angajati
+SET salariu = salariu * 1.1
+WHERE id_angajat = 1;
+
+--reducere salariu acceptabila
+UPDATE angajati
+SET salariu = salariu * 0.9
+WHERE id_angajat = 2;
+
+--reducere salariu prea mare (eroare)
+UPDATE angajati
+SET salariu = salariu * 0.7
+WHERE id_angajat = 3;
+
+SELECT a.nume, a.prenume,
+       i.salariu_vechi,
+       i.salariu_nou,
+       TO_CHAR(i.data_modificare, 'DD-MON-YYYY HH24:MI:SS') as data_modificare,
+       i.motiv
+FROM istoric_modificari_salariu i
+JOIN angajati a ON i.id_angajat = a.id_angajat
+ORDER BY i.data_modificare DESC;
+
+ROLLBACK;
+
+DROP TABLE istoric_modificari_salariu;
+
+
+--cerinta 12
+--Creați un sistem de monitorizare a modificărilor structurale din baza de date care să înregistreze toate operațiunile LDD. 
+--Sistemul trebuie să facă distincție între tabelele principale și cele secundare. 
+--Pentru fiecare operațiune, se vor înregistra: tipul operațiunii efectuate, numele obiectului afectat, momentul modificării, detalii suplimentare despre natura modificării.
+CREATE TABLE log_operatii_ldd (
+    id_log NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    tip_operatiune VARCHAR2(50),
+    obiect_afectat VARCHAR2(100),
+    data_operatiune TIMESTAMP DEFAULT SYSTIMESTAMP,
+    detalii_suplimentare VARCHAR2(200)
+);
+
+CREATE OR REPLACE TRIGGER trigger_log_ldd
+BEFORE CREATE OR ALTER OR DROP ON SCHEMA
+DECLARE
+    v_detalii VARCHAR2(200);
+BEGIN
+    IF SYS.DICTIONARY_OBJ_TYPE = 'TABLE' THEN
+        CASE SYS.SYSEVENT
+            WHEN 'DROP' THEN
+                IF SYS.DICTIONARY_OBJ_NAME IN ('PROGRAMARI', 'ANGAJATI', 'SERVICII') THEN
+                    v_detalii := 'Atentie: Modificare structurala asupra unei tabele principale!';
+                ELSE
+                    v_detalii := 'Modificare structurala asupra unei tabele secundare';
+                END IF;
+            ELSE
+                v_detalii := 'Operatiune ' || SYS.SYSEVENT || ' pe tabela';
+        END CASE;
+    END IF;
+
+    INSERT INTO log_operatii_ldd (
+        tip_operatiune,
+        obiect_afectat,
+        detalii_suplimentare
+    ) VALUES (
+        SYS.SYSEVENT,
+        SYS.DICTIONARY_OBJ_NAME,
+        v_detalii
+    );
+END;
+/
+
+-- 1. Adaugam o coloana noua in PROGRAMARI
+ALTER TABLE programari ADD observatii VARCHAR2(200);
+
+-- 2. Cream o tabela temporara bazata pe ANGAJATI
+CREATE TABLE temp_angajati AS 
+SELECT * FROM angajati 
+WHERE id_departament = 1;
+
+-- 3. Stergem tabela temporara
+DROP TABLE temp_angajati;
+
+-- verificam log-ul operatiunilor
+SELECT TO_CHAR(data_operatiune, 'DD-MON-YYYY HH24:MI:SS') as data_operatiune,
+       tip_operatiune,
+       obiect_afectat,
+       detalii_suplimentare
+FROM log_operatii_ldd
+ORDER BY data_operatiune;
+
+ROLLBACK;
+DROP TRIGGER trigger_log_ldd;
+DROP TABLE log_operatii_ldd;
