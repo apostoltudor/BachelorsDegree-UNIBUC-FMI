@@ -1,0 +1,10 @@
+{
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-11",
+      "path": "/opt/homebrew/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home",
+      "default": true
+    }
+  ],
+  "maven.executable.path": "/Users/tudorapostol/Documents/Facultate/Y3S2/TSS/apache-maven-3.9.6/bin/mvn"
+}

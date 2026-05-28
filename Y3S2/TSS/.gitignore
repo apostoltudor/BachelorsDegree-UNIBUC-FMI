@@ -1,0 +1,23 @@
+# Maven build output
+target/
+
+# IDE files
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+
+# Maven local download (not needed in repo)
+apache-maven-3.9.6/
+
+# Course materials (too large for git, keep local only)
+cursuri/
+evaluare/
