@@ -1,22 +1,21 @@
-# Bachelor's Degree Coursework - UNIBUC FMI 🎓
+# Bachelor's Degree - UNIBUC FMI 🎓
 
 🇷🇴 **Română**  
-Acest repository reprezintă o arhivă a proiectelor, temelor și laboratoarelor realizate pe parcursul celor 3 ani de studii de licență la **Facultatea de Matematică și Informatică, Universitatea din București**.  
+Acesta este portofoliul meu de pe parcursul celor 3 ani de studii la **Facultatea de Matematică și Informatică, Universitatea din București (UNIBUC)**.  
+Aici am adunat majoritatea proiectelor, a temelor și laboratoarelor la care am lucrat.
 
-### 🗂 Structura folderelor
-Folderele sunt organizate logic după an și semestru:
-- **Y1**: S1, S2
-- **Y2**: S1, S2
-- **Y3**: S1, S2
+### 🛠️ Tehnologii folosite
+- **Limbaje principale:** C, C++, Python, Java, Go, Assembly x86 AT&T
+- **Web & Framework-uri:** HTML, CSS, JS, FastAPI, React, Django
+- **Baze de date:** SQL, OracleSQL, PostgreSQL, MongoDB
 
 ---
 
 🇬🇧 **English**  
-This repository serves as a comprehensive archive of the projects, assignments, and labs completed during my 3-year Bachelor's degree in Computer Science at the **Faculty of Mathematics and Computer Science, University of Bucharest (UNIBUC)**.  
-Many of the projects have been imported with their full version control history, preserving development timelines and teamwork contributions.
+This is my portfolio covering my 3 years of study at the **Faculty of Mathematics and Computer Science, University of Bucharest (UNIBUC)**.  
+Here I have gathered most of the projects, assignments, and labs I worked on.
 
-### 🗂 Folder Structure
-The directories are logically organized by Year (Y) and Semester (S):
-- **Y1** (Year 1): S1, S2
-- **Y2** (Year 2): S1, S2
-- **Y3** (Year 3): S1, S2
+### 🛠️ Tech Stack & Technologies
+- **Core Languages:** C, C++, Python, Java, Go, Assembly x86 AT&T
+- **Web & Frameworks:** HTML, CSS, JS, FastAPI, React, Django
+- **Databases:** SQL, OracleSQL, PostgreSQL, MongoDB
