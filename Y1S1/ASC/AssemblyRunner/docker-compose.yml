@@ -1,0 +1,8 @@
+services:
+  app:
+    build: .
+    image: x86-assembly-container:latest
+    container_name: assembly_environment
+    volumes:
+      - .:/app
+    command: bash -c "cd /app && gcc -x assembler -m32 ${PROGRAM_NAME} -o executable && echo 'PROGRAM OUTPUT:' && ./executable < input.txt && rm ./executable && echo && echo 'PROGRAM FINISHED!'"
