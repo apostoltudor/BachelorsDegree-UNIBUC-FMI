@@ -1,16 +1,13 @@
 # Bachelor's Degree Coursework - UNIBUC FMI 🎓
 
-*(Scroll down for English version)*
-
 🇷🇴 **Română**  
-Acest repository reprezintă o arhivă completă a proiectelor, temelor și laboratoarelor realizate pe parcursul celor 3 ani de studii de licență la **Facultatea de Matematică și Informatică, Universitatea din București (UNIBUC)**.  
-Multe dintre proiecte au fost integrate păstrând istoricul lor complet de dezvoltare și contribuțiile muncii în echipă.
+Acest repository reprezintă o arhivă a proiectelor, temelor și laboratoarelor realizate pe parcursul celor 3 ani de studii de licență la **Facultatea de Matematică și Informatică, Universitatea din București**.  
 
 ### 🗂 Structura folderelor
-Folderele sunt organizate logic după An (Year) și Semestru (Semester):
-- **Y1** (Anul 1): S1, S2
-- **Y2** (Anul 2): S1, S2
-- **Y3** (Anul 3): S1, S2
+Folderele sunt organizate logic după an și semestru:
+- **Y1**: S1, S2
+- **Y2**: S1, S2
+- **Y3**: S1, S2
 
 ---
 
