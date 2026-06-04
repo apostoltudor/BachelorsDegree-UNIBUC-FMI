@@ -1,0 +1,12 @@
+euristica aleasa estimeaza avantajul prin combinatia a 4 factori ponderati in functie de importanta. ponderile nu reprezinta valori teoretic unice, ci o alegere bazata pe experienta ce reflecta importanta relativa a acestor factori:
+    e(s) = 25 * avantaj colturi + 5 * avantaj mobilitate + 1* avantaj piese + 8 * avantaj_patrate_periculoase
+
+o euristica in Othello trebuie sa se concetnreze pe  controlul tablei in detrimentul capturarii prostesti de piese.
+
+avantaj colturi x25: piesele ce se afla in colturi sunt foarte valoroase deoarece nu pot fi intoarse de adversar, servind ca niste ancore pentru a acapara marginea tablei.
+
+avantaj mobilitate x5: metrica aceasta evalueaza cate mutari putem face fata de adversar, ideea fiind sa avem noi cat mai multe mutari si sa ii reducem numarul sau, fortandu-l sa faca anumite miscari ce il dezavantajeaza
+
+avantaj piese x1: un numar mare de piese in prima jumatate a jocului ii ofera adversarului mai multe otpiuni de atac, asadar numararea efectiva a pieselor conteaza cel mai putin, acesta fiind un factor care faca departajarea in situatii aproape egale intre jucatori. 
+
+avantaj_patrate_periculoase x8: calculat din diferenta: numar patrate periculoase jucator 2 (adversar) si numar patrate periculoase jucator 1. patratele periculoase sunt cele aflate in proximitatea colturilor, si care daca sunt ocupate prea devreme pot duce la capturarea colturilor de catre adversar, asadar euristica penalizeaza situatiile in care jucatorul 1 ocupa acele pozitii si altfel il recompenseaza daca sunt ocupate de adversar.

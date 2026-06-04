@@ -1,0 +1,26 @@
+[
+  {
+    "model": "CustomCNN",
+    "lr": 0.001,
+    "epochs": 50,
+    "batch_size": 32,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "n_folds": 5,
+    "early_stop_patience": 8,
+    "optimizer": "AdamW",
+    "scheduler": "CosineAnnealingLR",
+    "fold_accuracies": [
+      0.7016129032258065,
+      0.7058064516129032,
+      0.7093548387096774,
+      0.7129032258064516,
+      0.61
+    ],
+    "mean_accuracy": 0.6879354838709677,
+    "std_accuracy": 0.03914731110435752,
+    "best_fold": 3,
+    "best_accuracy": 0.7129032258064516,
+    "total_time_seconds": 579.0367531776428
+  }
+]

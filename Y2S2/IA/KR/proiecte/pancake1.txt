@@ -1,0 +1,8 @@
+Am ales Gap Heuristic. 
+Am ajuns la aceasta euristica deoarece din moment ce scopul este sa ordonam clatitele asa facem totul mai usor. 
+Daca din 5 clatite, doua dintre ele sunt asezate in ordine consecutiva, putem spune despre cele doua ca nu au un "gap" intre ele si le putem lua ca pe un intreg, asadar calculand in continuare ca si cum ar fi 4 in loc de 5. 
+Avem un gap inclusiv daca la baza stivei nu este clatita cea mai mare. 
+Valoarea euristicii este reprezentata de numarul de gap-uri pe care le avem, daca numarul este 0 ar insemna ca toate sunt ordonate. 
+Aceasta euristica este admisibila deoarece estimarea ei nu depaseste costul real (nu supraestimeaza).
+De asemenea, noi cand folosim flip(k) facem o singura modificare, schimbam legatura dintre clatiele k si k+1 in clatitele 1 si k+1. 
+Asadar, daca stiva are 5 gap-uri, nu putem sa le rezolvam pe toate dintr-un numar mai mic de 5 mutari, iar pentru ca numaratoarea nu va depasi niciodata numarul real de mutari necesare, euristica este adminisbila.

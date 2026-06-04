@@ -1,0 +1,16 @@
+functia de evaluare aleasa estimeaza cat de favorabila este o stare pentru jucatorul curent prin combinatia a doi factori importanti pentru joc. ponderile nu reprezinta valori teoretic unice, ci o alegere practica menita sa reflecte importanta fiecarui factor in apropierea victoriei:
+
+e(s) = 10 * avantaj_scor + 4 * avantaj_free_bacon
+
+(unde avantaj_scor = scor_curent - scor_adversar, iar avantaj_free_bacon = free_bacon(scor_adversar) - free_bacon(scor_curent))
+
+pentru starile terminale (scor >= 100), evaluarea va returna automat infinit sau minus infinit.
+
+o functie de evaluare buna in hog trebuie sa tina cont de diferenta de scor dintre jucatori si de posibilitatea de a obtine puncte sigure prin free bacon. deoarece jocul combina decizii de risc si decizii sigure, functia de evaluare trebuie sa surprinda atat avantajul actual, cat si optiunile din viitor.
+avantajul actual este clar definit prin diferenta de scoruri a jucatorilor, iar optiunile din viitor de free bacon care oferta un numar garantat de puncte si influenteaza alegerile.
+
+avantaj_scor x10: cel mai important factor este diferenta dintre scorul jucatorului curent si scorul adversarului. daca jucatorul curent are deja un scor mai mare, atunci starea este in general mai favorabila, el fiind mai aproape de victorie.
+
+avantaj_free_bacon x4: regula free bacon permite obtinerea unor puncte fara niciun risc, deoarece jucatorul nu mai arunca zaruri. aceasta este o componenta importanta a jocului, fiindca uneori o mutare sigura este mai avantajoasa decat una riscanta. de aceea, functia de evaluare tine cont si de punctajul care poate fi obtinut astfel.
+
+aceasta functie de evaluare este potrivita deoarece combina doua idei esentiale: avantajul curent de scor si existenta optiunilor sigure. in acest fel, functia penalizeaza corect starile in care ii lasam adversarului sansa la un free bacon mare si recompenseaza starile care ne avantajeaza viitorul joc.
