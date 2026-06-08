@@ -22,5 +22,53 @@
     "best_fold": 3,
     "best_accuracy": 0.7129032258064516,
     "total_time_seconds": 579.0367531776428
+  },
+  {
+    "model": "CustomCNN",
+    "lr": 0.001,
+    "epochs": 50,
+    "batch_size": 32,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "n_folds": 5,
+    "early_stop_patience": 15,
+    "optimizer": "AdamW",
+    "scheduler": "CosineAnnealingLR",
+    "fold_accuracies": [
+      0.6893548387096774,
+      0.6887096774193548,
+      0.6858064516129032,
+      0.6890322580645162,
+      0.692258064516129
+    ],
+    "mean_accuracy": 0.6890322580645161,
+    "std_accuracy": 0.0020503546557510627,
+    "best_fold": 4,
+    "best_accuracy": 0.692258064516129,
+    "total_time_seconds": 14123.011306762695
+  },
+  {
+    "model": "CustomCNN",
+    "lr": 0.001,
+    "epochs": 60,
+    "batch_size": 32,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.05,
+    "n_folds": 5,
+    "early_stop_patience": 15,
+    "optimizer": "AdamW",
+    "scheduler": "CosineAnnealingLR",
+    "fold_accuracies": [
+      0.7419354838709677,
+      0.7316129032258064,
+      0.7364516129032258,
+      0.7390322580645161,
+      0.7403225806451613
+    ],
+    "mean_accuracy": 0.7378709677419355,
+    "std_accuracy": 0.0036071382576759836,
+    "best_fold": 0,
+    "best_accuracy": 0.7419354838709677,
+    "total_time_seconds": 52376.763298749924
   }
 ]

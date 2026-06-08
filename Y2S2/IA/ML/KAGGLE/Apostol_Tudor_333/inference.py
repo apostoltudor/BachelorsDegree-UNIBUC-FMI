@@ -39,7 +39,14 @@ def inference_cnn_ensemble(test_df):
         else:
             raise FileNotFoundError("Niciun model CNN gasit. Ruleaza train_cnn.py mai intai.")
 
-    print(f"  Ensemble: {len(models)} modele incarcate")
+    n_models = len(models)
+
+    tta_transforms = [
+        lambda x: x,
+        lambda x: torch.flip(x, dims=[3]),  # Flip orizontal
+        lambda x: torch.flip(x, dims=[2]),  # Flip vertical
+    ]
+    print(f"  Ensemble: {n_models} modele x {len(tta_transforms)} TTA variante = {n_models * len(tta_transforms)} predictii/imagine")
 
     all_ids = []
     all_preds = []
@@ -49,11 +56,13 @@ def inference_cnn_ensemble(test_df):
             images = images.to(DEVICE)
 
             avg_probs = torch.zeros(images.size(0), NUM_CLASSES, device=DEVICE)
-            for model in models:
-                logits = model(images)
-                probs = F.softmax(logits, dim=1)
-                avg_probs += probs
-            avg_probs /= len(models)
+            for tta_fn in tta_transforms:
+                augmented = tta_fn(images)
+                for model in models:
+                    logits = model(augmented)
+                    probs = F.softmax(logits, dim=1)
+                    avg_probs += probs
+            avg_probs /= (n_models * len(tta_transforms))
 
             _, predicted = avg_probs.max(1)
             predicted = predicted.cpu().numpy() + 1

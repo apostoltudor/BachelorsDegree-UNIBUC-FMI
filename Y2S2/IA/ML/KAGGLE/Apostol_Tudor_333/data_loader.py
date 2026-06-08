@@ -40,11 +40,18 @@ class SignalDataset(Dataset):
         return image, label
 
 
+class GaussianNoise:
+    def __init__(self, std=0.015):
+        self.std = std
+
+    def __call__(self, tensor):
+        return tensor + torch.randn_like(tensor) * self.std
+
+
 train_transform = transforms.Compose([
     transforms.RandomHorizontalFlip(p=0.5),
     transforms.RandomVerticalFlip(p=0.5),
     transforms.RandomRotation(degrees=10),
-    transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 1.0)),
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
 ])
